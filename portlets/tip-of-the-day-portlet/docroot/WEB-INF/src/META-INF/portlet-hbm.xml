@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.rivetlogic.model.TipsOfTheDayCategories" />
+	<import class="com.rivetlogic.model.TipsOfTheDayUsers" />
+	<import class="com.rivetlogic.model.WebArticleHelper" />
+	<class name="com.rivetlogic.model.impl.TipsOfTheDayCategoriesImpl" table="rivetlogic_tod_TipsOfTheDayCategories">
+		<cache usage="read-write" />
+		<id name="groupId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="categories" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.rivetlogic.model.impl.TipsOfTheDayUsersImpl" table="rivetlogic_tod_TipsOfTheDayUsers">
+		<cache usage="read-write" />
+		<id name="tipUserId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

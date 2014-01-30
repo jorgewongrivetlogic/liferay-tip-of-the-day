@@ -1,0 +1,147 @@
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+ 
+.clearfix {
+    display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+    display: block;
+}
+ 
+* html .clearfix {
+    height: 1%;
+}
+
+html.aui-dialog-iframe-root-node {
+	overflow:hidden;
+}
+
+.tip-content {
+	overflow: auto;
+	/* height: 24em; */
+}
+
+.tip-buttons .aui-field-choice .aui-field-content {
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+ 
+.tip-buttons input.aui-button-input {
+    width: 7em;
+    margin-right: 1em;
+}
+
+.tip-buttons .btn {
+    width: 30%;
+    float: left;
+    margin: 0 8px 0 0;
+    padding: 4px 12px;
+} 
+
+.tip-of-the-day-portlet .fieldset  {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/***** Custon Dockbar CSS rules *****/
+.aui .dockbar .nav li.dropdown .taglib-tip-of-the-day-help.dropdown-menu.tip-of-the-day-menu{
+	left: auto;
+	right: 0;
+}
+
+.aui .dockbar .nav li.dropdown.user-avatar .dropdown-menu {
+    left: auto;
+    right: 5px;
+}
+/***** End Custon Dockbar CSS rules *****/
+
+/***** .switch-off-on CSS rules *****/
+.aui a.switch-off-on, .aui .dockbar .nav li.dropdown .dropdown-menu  li a.switch-off-on {
+	width: 50px;
+	height: 20px;
+	padding: 0 0 0 0;
+	border: 1px solid #999999;
+	-webkit-border-radius: 10px 10px 10px 10px; /* Android ² 1.6, iOS 1-3.2, Safari 3-4 */
+    border-radius: 10px 10px 10px 10px; /* Android 2.1+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 5+ */
+  	/* useful if you don't want a bg color from leaking outside the border: */
+  	background-clip: padding-box; /* Android 2.2+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 4+ */
+}
+
+.aui  a.switch-off-on span, .aui .dockbar .nav li.dropdown .dropdown-menu  li a.switch-off-on span{
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	background: #ffffff;
+	border: 1px solid #999999;
+  	-webkit-border-radius: 60px 60px 60px 60px; /* Android ² 1.6, iOS 1-3.2, Safari 3-4 */
+    border-radius: 60px 60px 60px 60px; /* Android 2.1+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 5+ */
+  	/* useful if you don't want a bg color from leaking outside the border: */
+  	background-clip: padding-box; /* Android 2.2+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 4+ */
+	margin: 4px 3px 0 3px;
+	line-height: 0.625em;
+}
+
+.aui  a.switch-off-on.on, .aui .dockbar .nav li.dropdown .dropdown-menu  li a.switch-off-on.on{
+	background: #00ff00;
+}
+
+.aui  a.switch-off-on.off, .aui .dockbar .nav li.dropdown .dropdown-menu  li  a.switch-off-on.off{
+	background: #ff0000;
+}
+
+.aui  a.switch-off-on.on span, .aui .dockbar .nav li.dropdown .dropdown-menu  li a.switch-off-on.on span{
+	float:right;
+	text-align: left;
+    text-indent: -30px;
+}
+
+.aui  a.switch-off-on.off span, .aui .dockbar .nav li.dropdown .dropdown-menu  li  a.switch-off-on.off span{
+	float: left;
+	text-align: right;
+    text-indent: 15px;
+}
+/***** End .switch-off-on CSS rules *****/
+
+.aui .dockbar .nav li.dropdown .taglib-tip-of-the-day-help.dropdown-menu.tip-of-the-day-menu li a.switch-off-on{
+	display: block;
+	margin: 0 0 0 45px;
+}
+
+.aui span.tof-switch{
+	color:#ffffff;
+	margin: 0 0 0 21px;
+	color: #FFFFFF;
+    font-size: 0.9em;
+    font-weight: 300;
+    word-break: break-all;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+
+/***** .switch-off-on tooltip CSS rules *****/
+.aui .tooltip-switch-btn.left{
+	z-index: 10001 !important; 
+}
+
+.aui .tooltip-switch-btn.left .tooltip-switch-btn-content.tooltip-content.yui3-widget-stdmod.tooltip-inner{
+	-webkit-box-shadow: none !important; /* Android 2.3+, iOS 4.0.2-4.2, Safari 3-4 */
+    box-shadow: none !important; /* Chrome 6+, Firefox 4+, IE 9+, iOS 5+, Opera 10.50+ */	
+    -webkit-border-radius: 60px 60px 60px 60px; /* Android ² 1.6, iOS 1-3.2, Safari 3-4 */
+    border-radius: 60px 60px 60px 60px; /* Android 2.1+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 5+ */
+  	/* useful if you don't want a bg color from leaking outside the border: */
+  	background-clip: padding-box; /* Android 2.2+, Chrome, Firefox 4+, IE 9+, iOS 4+, Opera 10.50+, Safari 4+ */  
+}
+
+.aui .tooltip-switch-btn.left .tooltip-arrow{
+	display: none;
+}
+
+/***** End .switch-off-on tooltip CSS rules *****/

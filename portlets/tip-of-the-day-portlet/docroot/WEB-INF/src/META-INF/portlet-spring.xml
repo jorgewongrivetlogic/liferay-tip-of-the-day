@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.rivetlogic.service.TipsOfTheDayCategoriesLocalService" class="com.rivetlogic.service.impl.TipsOfTheDayCategoriesLocalServiceImpl" />
+	<bean id="com.rivetlogic.service.TipsOfTheDayCategoriesService" class="com.rivetlogic.service.impl.TipsOfTheDayCategoriesServiceImpl" />
+	<bean id="com.rivetlogic.service.persistence.TipsOfTheDayCategoriesPersistence" class="com.rivetlogic.service.persistence.TipsOfTheDayCategoriesPersistenceImpl" parent="basePersistence" />
+	<bean id="com.rivetlogic.service.TipsOfTheDayUsersLocalService" class="com.rivetlogic.service.impl.TipsOfTheDayUsersLocalServiceImpl" />
+	<bean id="com.rivetlogic.service.TipsOfTheDayUsersService" class="com.rivetlogic.service.impl.TipsOfTheDayUsersServiceImpl" />
+	<bean id="com.rivetlogic.service.persistence.TipsOfTheDayUsersPersistence" class="com.rivetlogic.service.persistence.TipsOfTheDayUsersPersistenceImpl" parent="basePersistence" />
+	<bean id="com.rivetlogic.service.WebArticleHelperLocalService" class="com.rivetlogic.service.impl.WebArticleHelperLocalServiceImpl" />
+	<bean id="com.rivetlogic.service.WebArticleHelperService" class="com.rivetlogic.service.impl.WebArticleHelperServiceImpl" />
+</beans>

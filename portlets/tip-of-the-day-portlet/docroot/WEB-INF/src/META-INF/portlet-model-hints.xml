@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.rivetlogic.model.TipsOfTheDayCategories">
+		<field name="groupId" type="long" />
+		<field name="categories" type="String" />
+	</model>
+	<model name="com.rivetlogic.model.TipsOfTheDayUsers">
+		<field name="tipUserId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="status" type="String" />
+	</model>
+</model-hints>
