@@ -26,7 +26,7 @@ import com.liferay.portal.service.InvokableService;
  * checks based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsersService
  * @see com.rivetlogic.service.base.TipsOfTheDayUsersServiceBaseImpl
  * @see com.rivetlogic.service.impl.TipsOfTheDayUsersServiceImpl

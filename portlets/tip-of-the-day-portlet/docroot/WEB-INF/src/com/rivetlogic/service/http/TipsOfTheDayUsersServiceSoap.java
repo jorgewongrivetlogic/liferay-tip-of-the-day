@@ -48,7 +48,7 @@ package com.rivetlogic.service.http;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsersServiceHttp
  * @see com.rivetlogic.model.TipsOfTheDayUsersSoap
  * @see com.rivetlogic.service.TipsOfTheDayUsersServiceUtil

@@ -28,7 +28,7 @@ import java.io.ObjectOutput;
 /**
  * The cache model class for representing TipsOfTheDayUsers in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsers
  * @generated
  */

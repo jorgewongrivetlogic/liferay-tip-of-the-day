@@ -25,7 +25,7 @@ import com.rivetlogic.model.TipsOfTheDayUsers;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsersPersistenceImpl
  * @see TipsOfTheDayUsersUtil
  * @generated

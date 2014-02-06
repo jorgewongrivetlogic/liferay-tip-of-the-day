@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  */
 public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 	implements TipsOfTheDayUsers {
