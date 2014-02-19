@@ -28,7 +28,7 @@ import com.liferay.portal.service.InvokableLocalService;
  * credentials because this service can only be accessed from within the same
  * VM.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see WebArticleHelperLocalServiceUtil
  * @see com.rivetlogic.service.base.WebArticleHelperLocalServiceBaseImpl
  * @see com.rivetlogic.service.impl.WebArticleHelperLocalServiceImpl

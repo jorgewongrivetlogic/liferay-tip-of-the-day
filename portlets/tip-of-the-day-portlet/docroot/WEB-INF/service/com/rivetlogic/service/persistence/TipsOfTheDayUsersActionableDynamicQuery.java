@@ -22,7 +22,7 @@ import com.rivetlogic.model.TipsOfTheDayUsers;
 import com.rivetlogic.service.TipsOfTheDayUsersLocalServiceUtil;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @generated
  */
 public abstract class TipsOfTheDayUsersActionableDynamicQuery

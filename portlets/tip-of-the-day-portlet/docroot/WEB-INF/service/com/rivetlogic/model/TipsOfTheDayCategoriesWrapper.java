@@ -25,7 +25,7 @@ import java.util.Map;
  * This class is a wrapper for {@link TipsOfTheDayCategories}.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayCategories
  * @generated
  */

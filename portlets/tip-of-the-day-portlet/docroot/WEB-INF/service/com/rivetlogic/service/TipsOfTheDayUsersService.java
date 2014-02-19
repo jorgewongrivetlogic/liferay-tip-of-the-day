@@ -28,7 +28,7 @@ import com.liferay.portal.service.InvokableService;
  * service are expected to have security checks based on the propagated JAAS
  * credentials because this service can be accessed remotely.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsersServiceUtil
  * @see com.rivetlogic.service.base.TipsOfTheDayUsersServiceBaseImpl
  * @see com.rivetlogic.service.impl.TipsOfTheDayUsersServiceImpl

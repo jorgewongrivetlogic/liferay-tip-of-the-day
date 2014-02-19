@@ -19,7 +19,7 @@ import com.liferay.portal.service.ServiceWrapper;
 /**
  * Provides a wrapper for {@link WebArticleHelperService}.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see WebArticleHelperService
  * @generated
  */

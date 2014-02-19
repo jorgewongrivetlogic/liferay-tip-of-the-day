@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services, specifically {@link com.rivetlogic.service.http.TipsOfTheDayUsersServiceSoap}.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see com.rivetlogic.service.http.TipsOfTheDayUsersServiceSoap
  * @generated
  */

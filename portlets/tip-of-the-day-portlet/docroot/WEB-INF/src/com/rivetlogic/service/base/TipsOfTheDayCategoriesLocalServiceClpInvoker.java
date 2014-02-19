@@ -19,7 +19,7 @@ import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
 import java.util.Arrays;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @generated
  */
 public class TipsOfTheDayCategoriesLocalServiceClpInvoker {

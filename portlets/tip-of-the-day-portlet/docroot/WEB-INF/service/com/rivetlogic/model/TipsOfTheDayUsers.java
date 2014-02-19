@@ -19,7 +19,7 @@ import com.liferay.portal.model.PersistedModel;
 /**
  * The extended model interface for the TipsOfTheDayUsers service. Represents a row in the &quot;rivetlogic_tod_TipsOfTheDayUsers&quot; database table, with each column mapped to a property of this class.
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @see TipsOfTheDayUsersModel
  * @see com.rivetlogic.model.impl.TipsOfTheDayUsersImpl
  * @see com.rivetlogic.model.impl.TipsOfTheDayUsersModelImpl

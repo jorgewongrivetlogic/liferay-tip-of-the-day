@@ -26,7 +26,7 @@ import com.rivetlogic.service.WebArticleHelperLocalServiceUtil;
 import com.rivetlogic.service.WebArticleHelperServiceUtil;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  */
 public class ClpMessageListener extends BaseMessageListener {
 	public static String getServletContextName() {

@@ -17,7 +17,7 @@ package com.rivetlogic.service;
 import com.liferay.portal.service.InvokableLocalService;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  * @generated
  */
 public class TipsOfTheDayCategoriesLocalServiceClp
