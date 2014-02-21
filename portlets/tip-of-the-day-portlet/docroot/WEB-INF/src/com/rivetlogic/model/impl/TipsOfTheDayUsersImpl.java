@@ -1,4 +1,8 @@
 /**
+ * Copyright (c) 2014 Rivet Logic Corporation. All rights reserved.
+ */
+
+/**
  * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
@@ -21,7 +25,7 @@ package com.rivetlogic.model.impl;
  * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.rivetlogic.model.TipsOfTheDayUsers} interface.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author juancarrillo
  */
 public class TipsOfTheDayUsersImpl extends TipsOfTheDayUsersBaseImpl {
 	/*
