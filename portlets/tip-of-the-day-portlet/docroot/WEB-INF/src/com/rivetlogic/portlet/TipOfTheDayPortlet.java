@@ -77,7 +77,7 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 			}
 			
 		} catch (SystemException e) {
-			logger.error(e);
+			logger.error("Error setting categories", e);
 		}
 	}
 	
@@ -95,9 +95,9 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 					request, themeDisplay, categoryIds);
 			
 		} catch (SystemException e) {
-			logger.error(e);
+			logger.error("Error retrieving categories", e);
 		} catch (PortalException e) {
-			logger.error(e);
+			logger.error("Error retrieving categories", e);
 		}
 
 		super.doView(request, response);

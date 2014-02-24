@@ -67,16 +67,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = 
 				(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
-		try {
-			String userStatus = getUserStatus(request, themeDisplay);
-			setPopUpVisibility(request, themeDisplay, userStatus);
+		String userStatus = getUserStatus(request, themeDisplay);
+		setPopUpVisibility(request, themeDisplay, userStatus);
 			
-		} catch (SystemException e) {
-			logger.error(e);
-		} catch (PortalException e) {
-			logger.error(e);
-		}
-
 		super.doView(request, response);
 	}
 	
@@ -111,7 +104,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		if (action.equals(WebKeys.DISPLAY)) {
 			boolean stopShowing = 
 					ParamUtil.getBoolean(request, "stopShowing");
-			logger.debug("stopShowing: "+stopShowing);
+			
+			if (logger.isDebugEnabled())
+				logger.debug("stopShowing: "+stopShowing);
+			
 			changeShowTips(stopShowing, themeDisplay);
 			
 		} else if (action.equals(WebKeys.CHANGE_USER_STATUS)) {
@@ -124,26 +120,34 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	private void setPopUpVisibility(RenderRequest request, 
-			ThemeDisplay themeDisplay, String userStatus)
-		throws PortalException, SystemException {
+			ThemeDisplay themeDisplay, String userStatus) {
 		
-		long[] categoryIds = new long[0];
-		
-		boolean showTips = checkShowTips(
-				themeDisplay, userStatus);
-		
-		categoryIds = 
-				TipOfTheDayUtil.retrieveCategories(
-						request, themeDisplay, categoryIds);
-		
-		if (categoryIds != null ) {
-			getInitialArticlesToDisplay(request, categoryIds);
+		try {
+			long[] categoryIds = new long[0];
 			
-		} else {
-			showTips = false;
+			boolean showTips;
+			
+			showTips = checkShowTips(
+					themeDisplay, userStatus);
+			categoryIds = 
+					TipOfTheDayUtil.retrieveCategories(
+							request, themeDisplay, categoryIds);
+			
+			if (categoryIds != null ) {
+				getInitialArticlesToDisplay(request, categoryIds);
+				
+			} else {
+				showTips = false;
+			}
+			
+			request.setAttribute("showTips", showTips );
+			
+		} catch (PortalException e) {
+			logger.error("Error setting pop up visibility", e);
+		} catch (SystemException e) {
+			logger.error("Error setting pop up visibility", e);
 		}
 		
-		request.setAttribute("showTips", showTips );
 	}
 	
 	private boolean checkShowTips(
@@ -158,7 +162,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 				!layout.getGroup().getName().equals(
 						GroupConstants.CONTROL_PANEL)) {
 			
-			logger.debug("userStatus: "+userStatus);
+			if (logger.isDebugEnabled())
+				logger.debug("userStatus: "+userStatus);
 			
 			if (Validator.isNotNull(userStatus)) {
 				
@@ -182,14 +187,18 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					
 					show = lastVisited.before(today);
 					
-					logger.debug("last visited: "+ 
-					lastVisited.getTime().toString());
-					logger.debug("today: "+ today.getTime().toString());
+					if (logger.isDebugEnabled()) {
+						logger.debug("last visited: "+ 
+								lastVisited.getTime().toString());
+						
+						logger.debug("today: "+ today.getTime().toString());
+					}
 				}
 			}
 		}
 		
-		logger.debug("Show Tip of the Day: "+show);
+		if (logger.isDebugEnabled())
+			logger.debug("Show Tip of the Day: "+show);
 		
 		return show;
 	}
@@ -216,9 +225,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			}
 			
 		} catch (SystemException e) {
-			logger.error(e);
+			logger.error("Error setting user visitance", e);
 		} catch (PortalException e) {
-			logger.error(e);
+			logger.error("Error setting user visitance", e);
 		}
 	}
 	
@@ -239,9 +248,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 								themeDisplay.getUserId(), 
 								String.valueOf(calendar.getTimeInMillis()));
 					} catch (PortalException e) {
-						logger.error(e);
+						logger.error("Error setting user visitance", e);
 					} catch (SystemException e) {
-						logger.error(e);
+						logger.error("Error setting user visitance", e);
 					}
 			}
 		}
@@ -267,7 +276,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					Arrays.asList(""), "");			
 		}
 		
-		logger.debug("quantity of articles: "+articles.size());
+		if (logger.isDebugEnabled())
+			logger.debug("quantity of articles: "+articles.size());
 	}
 	
 	private void setArticleToDisplay(RenderRequest request) {
@@ -328,9 +338,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			}
 			
 		} catch (SystemException e) {
-			logger.error(e);
+			logger.error("Error retrieving user status", e);
 		} catch (PortalException e) {
-			logger.error(e);
+			logger.error("Error retrieving user status", e);
 		}
 		
 		return userStatus;
@@ -363,7 +373,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			
 		} else {
 			String nextArticleId = visitedList.get(actualArticlePosition + 1 );
-			logger.debug("nextArticleId: "+ nextArticleId);
+			
+			if (logger.isDebugEnabled())
+				logger.debug("nextArticleId: "+ nextArticleId);
+			
 			request.setAttribute(WebKeys.NEXT_ARTICLE_ID, nextArticleId);
 		}			
 			
@@ -417,7 +430,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		String articleId = articleIds[randomArticle];
 		request.setAttribute(WebKeys.NEXT_ARTICLE_ID, articleId);
 		
-		logger.debug("nextRandomArticleId: "+ articleId);
+		if (logger.isDebugEnabled())
+			logger.debug("nextRandomArticleId: "+ articleId);
 	}
 	
 	private boolean checkTipVisited(
