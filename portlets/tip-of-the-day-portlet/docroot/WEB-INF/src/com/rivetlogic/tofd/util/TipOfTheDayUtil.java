@@ -64,7 +64,8 @@ public class TipOfTheDayUtil {
 			
 			request.setAttribute(WebKeys.CUR_CATEGORY_IDS, selectedCategories);
 			
-			logger.debug("curCategoryIds: " + selectedCategories);
+			if (logger.isDebugEnabled())
+				logger.debug("curCategoryIds: " + selectedCategories);
 		}
 		
 		return categoryIds;
