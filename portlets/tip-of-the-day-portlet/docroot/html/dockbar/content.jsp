@@ -24,21 +24,21 @@
 <%
 boolean disablePrev = GetterUtil.getBoolean(request.getAttribute("disablePrev"));
 boolean disableNext = GetterUtil.getBoolean(request.getAttribute("disableNext"));
-boolean stopShowing = GetterUtil.getBoolean(request.getAttribute("stopShowing"));
+boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
 %>
 
 <portlet:renderURL var="previousURL">
-	<portlet:param name="mvcPath" value="/html/dockbar/content.jsp"/>
-	<portlet:param name="articleIds" value="${articleIds}"/>
-	<portlet:param name="visited" value="${visited}"/>
-	<portlet:param name="articleId" value="${prevArticleId}"/>
+	<portlet:param name="<%=WebKeys.MVC_PATH%>" value="<%=TipOfTheDayDockbarPortlet.CONTENT_VIEW%>"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_IDS%>" value="${articleIds}"/>
+	<portlet:param name="<%=WebKeys.VISITED%>" value="${visited}"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_ID%>" value="${prevArticleId}"/>
 </portlet:renderURL>
 
 <portlet:renderURL var="nextURL">
-	<portlet:param name="mvcPath" value="/html/dockbar/content.jsp"/>
-	<portlet:param name="articleIds" value="${articleIds}"/>
-	<portlet:param name="visited" value="${visited}"/>
-	<portlet:param name="articleId" value="${nextArticleId}"/>
+	<portlet:param name="<%=WebKeys.MVC_PATH%>" value="<%=TipOfTheDayDockbarPortlet.CONTENT_VIEW%>"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_IDS%>" value="${articleIds}"/>
+	<portlet:param name="<%=WebKeys.VISITED%>" value="${visited}"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_ID%>" value="${nextArticleId}"/>
 </portlet:renderURL>
 
 <div id="<portlet:namespace/>" class="tip-ctn">
@@ -57,7 +57,7 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute("stopShowing"))
     <div class="clearfix"></div>
     <br/>
     <div class="tip-buttons">
-        <aui:input name="stopShowing" label="tof-dont-show" type="checkbox" checked="<%= stopShowing %>" cssClass="ajax-checkbox-action" />
+        <aui:input name="<%=WebKeys.STOP_SHOWING%>" label="tof-dont-show" type="checkbox" checked="<%= stopShowing %>" cssClass="ajax-checkbox-action" />
         <aui:button name="previous" value='<%= LanguageUtil.get(pageContext, "tof-previous") %>' href="<%= previousURL %>" disabled="<%= disablePrev %>"/>
         <aui:button name="next" value='<%= LanguageUtil.get(pageContext, "tof-next") %>' href="<%= nextURL %>" disabled="<%= disableNext %>" />
         <aui:button name="done" value='<%= LanguageUtil.get(pageContext, "tof-done") %>' cssClass="tofd-close-pop-up"/>

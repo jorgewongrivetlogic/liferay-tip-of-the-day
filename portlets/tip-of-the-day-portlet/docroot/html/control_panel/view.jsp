@@ -27,7 +27,7 @@
 
 <aui:form name="tips-of-day-fm" action="<%= savePreferencesURL %>" method="post">
 	<aui:fieldset label="tof-category-select">
-		<aui:input name="tipsCategoriesId" value="${tipsCategoriesId}" type="hidden"/>
+		<aui:input name="<%=WebKeys.TIPS_CATEGORIES_ID%>" value="${tipsCategoriesId}" type="hidden"/>
 		<liferay-ui:asset-categories-selector curCategoryIds="${curCategoryIds}" />
         <div class="clearfix"></div>
 	</aui:fieldset>

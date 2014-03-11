@@ -19,7 +19,6 @@
 
 package com.rivetlogic.portlet;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -46,8 +45,8 @@ import javax.portlet.RenderResponse;
  * @author juancarrillo
  *
  */
-public class TipOfTheDayPortlet extends MVCPortlet {
-
+public class TipOfTheDayPortlet extends MVCPortlet {	
+	
 	public void savePreferences(
 			ActionRequest request, ActionResponse response) {
 		
@@ -55,9 +54,9 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 				(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		String categoryIds = 
-				ParamUtil.getString(request, "assetCategoryIds");
+				ParamUtil.getString(request, WebKeys.ASSET_CATEGORY_IDS);
 		long resourcePrimKey = 
-				ParamUtil.getLong(request, "tipsCategoriesId");
+				ParamUtil.getLong(request, WebKeys.TIPS_CATEGORIES_ID);
 		
 		TipsOfTheDayCategories categories = 
 				new TipsOfTheDayCategoriesImpl();
@@ -94,9 +93,7 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 			TipOfTheDayUtil.retrieveCategories(
 					request, themeDisplay, categoryIds);
 			
-		} catch (SystemException e) {
-			logger.error("Error retrieving categories", e);
-		} catch (PortalException e) {
+		} catch (Exception e) {
 			logger.error("Error retrieving categories", e);
 		}
 

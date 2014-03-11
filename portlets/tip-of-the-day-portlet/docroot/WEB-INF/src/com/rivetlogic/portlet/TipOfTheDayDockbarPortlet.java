@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.GroupConstants;
@@ -59,6 +60,10 @@ import javax.portlet.ResourceResponse;
  *
  */
 public class TipOfTheDayDockbarPortlet extends MVCPortlet {
+	
+	public static final String CONTENT_VIEW = "/html/dockbar/content.jsp";
+	private static final String ATTR_SHOW_TIPS = "showTips";
+	private static final String ERROR_MESSAGE_NO_TIPS_DISPLAY = "no-tips-to-display";
  
 	@Override
 	public void doView(RenderRequest request,RenderResponse response) 
@@ -82,9 +87,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		
 		getUserStatus(request, themeDisplay);
 		
-		String mvcPath = ParamUtil.getString(request, "mvcPath");
+		String mvcPath = ParamUtil.getString(request,WebKeys.MVC_PATH);
 		
-		if (mvcPath.equals("/html/dockbar/content.jsp")) {
+		if (mvcPath.equals(CONTENT_VIEW)) {
 			setArticleToDisplay(request);
 		}
 		
@@ -103,10 +108,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		
 		if (action.equals(WebKeys.DISPLAY)) {
 			boolean stopShowing = 
-					ParamUtil.getBoolean(request, "stopShowing");
+					ParamUtil.getBoolean(request, WebKeys.STOP_SHOWING);
 			
 			if (logger.isDebugEnabled())
-				logger.debug("stopShowing: "+stopShowing);
+				logger.debug(WebKeys.STOP_SHOWING+StringPool.COLON+stopShowing);
 			
 			changeShowTips(stopShowing, themeDisplay);
 			
@@ -140,11 +145,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 				showTips = false;
 			}
 			
-			request.setAttribute("showTips", showTips );
+			request.setAttribute(ATTR_SHOW_TIPS, showTips );
 			
-		} catch (PortalException e) {
-			logger.error("Error setting pop up visibility", e);
-		} catch (SystemException e) {
+		} catch (Exception e) {
 			logger.error("Error setting pop up visibility", e);
 		}
 		
@@ -188,9 +191,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					show = lastVisited.before(today);
 					
 					if (logger.isDebugEnabled()) {
-						logger.debug("last visited: "+ 
-								lastVisited.getTime().toString());
-						
+						logger.debug("last visited: "+ lastVisited.getTime().toString());
 						logger.debug("today: "+ today.getTime().toString());
 					}
 				}
@@ -224,10 +225,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 						String.valueOf(WebKeys.STATUS_RECEIVE));
 			}
 			
-		} catch (SystemException e) {
-			logger.error("Error setting user visitance", e);
-		} catch (PortalException e) {
-			logger.error("Error setting user visitance", e);
+		} catch (Exception e) {
+			logger.error("Error changing Show Tips", e);
 		}
 	}
 	
@@ -247,9 +246,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 								themeDisplay.getScopeGroupId(),
 								themeDisplay.getUserId(), 
 								String.valueOf(calendar.getTimeInMillis()));
-					} catch (PortalException e) {
-						logger.error("Error setting user visitance", e);
-					} catch (SystemException e) {
+					} catch (Exception e) {
 						logger.error("Error setting user visitance", e);
 					}
 			}
@@ -272,8 +269,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 				StringUtil.merge(articleIds));
 		
 		if (articleIds.length > 0) {
-			chooseRandomTip(request, articleIds, StringUtil.split(""), 
-					Arrays.asList(""), "");			
+			chooseRandomTip(request, articleIds, StringUtil.split(StringPool.BLANK), 
+					Arrays.asList(StringPool.BLANK), StringPool.BLANK);			
 		}
 		
 		if (logger.isDebugEnabled())
@@ -282,11 +279,11 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	
 	private void setArticleToDisplay(RenderRequest request) {
 		
-		String articleIdsString = ParamUtil.getString(request, "articleIds");
+		String articleIdsString = ParamUtil.getString(request, WebKeys.ARTICLE_IDS);
 		request.setAttribute(
 				WebKeys.ARTICLE_IDS, articleIdsString);
 		String[] articleIds = StringUtil.split(articleIdsString);
-		String articleId = ParamUtil.getString(request, "articleId");
+		String articleId = ParamUtil.getString(request, WebKeys.ARTICLE_ID);
 		request.setAttribute(WebKeys.ARTICLE_ID, articleId);
 		
 		if (articleIds.length > 0) {
@@ -300,7 +297,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			}
 			
 		} else {
-			SessionMessages.add(request, "no-tips-to-display");
+			SessionMessages.add(request, ERROR_MESSAGE_NO_TIPS_DISPLAY);
 			request.setAttribute(WebKeys.DISABLE_PREV, true);
 			request.setAttribute(WebKeys.DISABLE_NEXT, true);
 		}
@@ -337,9 +334,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 				request.setAttribute(WebKeys.STOP_SHOWING, true);
 			}
 			
-		} catch (SystemException e) {
-			logger.error("Error retrieving user status", e);
-		} catch (PortalException e) {
+		} catch (Exception e) {
 			logger.error("Error retrieving user status", e);
 		}
 		
@@ -349,7 +344,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	private void selectTip(RenderRequest request, 
 			String[] articleIds, String currentArticleId) {
 		
-		String attVisited = ParamUtil.getString(request, "visited");
+		String attVisited = ParamUtil.getString(request, WebKeys.VISITED);
 		
 		String[] visited = StringUtil.split(attVisited);
 		
@@ -388,7 +383,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			
 			if (visited.length > 0) {
 				request.setAttribute(
-						WebKeys.VISITED, attVisited + "," + currentArticleId);
+						WebKeys.VISITED, attVisited + StringPool.COMMA + currentArticleId);
 				
 			} else {
 				request.setAttribute(WebKeys.VISITED, currentArticleId);
@@ -402,7 +397,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	private void choosePreviousSelectedTip(RenderRequest request, 
 			List<String> visited, int actualArticlePosition) {
 		
-		String prevArticleId = "";
+		String prevArticleId = StringPool.BLANK;
 		
 		if (actualArticlePosition > 0) {
 			prevArticleId = visited.get(actualArticlePosition - 1 );
