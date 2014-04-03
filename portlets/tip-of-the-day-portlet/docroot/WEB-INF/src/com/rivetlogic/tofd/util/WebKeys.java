@@ -55,4 +55,8 @@ public class WebKeys implements com.liferay.portal.kernel.util.WebKeys {
 	public static final String CUR_CATEGORY_IDS = "curCategoryIds";
 	
 	public static final String TIPS_CATEGORIES_ID = "tipsCategoriesId";
+	
+	public static final String MVC_PATH = "mvcPath";
+	
+	public static final String ASSET_CATEGORY_IDS = "assetCategoryIds";
 }

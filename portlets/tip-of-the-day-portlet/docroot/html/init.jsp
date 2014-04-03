@@ -28,7 +28,6 @@
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="com.liferay.portal.theme.PortletDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.Validator" %>
@@ -38,6 +37,9 @@
 <%@page import="com.liferay.portal.model.Layout"%>
 
 <%@ page import="com.rivetlogic.service.WebArticleHelperLocalServiceUtil" %>
+<%@ page import="com.rivetlogic.tofd.util.WebKeys" %>
+<%@ page import="com.rivetlogic.portlet.TipOfTheDayDockbarPortlet" %>
+
 
 <portlet:defineObjects />
 <liferay-theme:defineObjects />
@@ -45,5 +47,5 @@
 <%
 String redirect = ParamUtil.getString(request, "redirect");
 String currentURL = PortalUtil.getCurrentURL(request);
-String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+String portletId = (String) request.getAttribute(com.liferay.portal.kernel.util.WebKeys.PORTLET_ID);
 %>

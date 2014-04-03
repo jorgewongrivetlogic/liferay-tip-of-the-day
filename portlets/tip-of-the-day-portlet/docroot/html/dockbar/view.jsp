@@ -22,7 +22,7 @@
 <%@include file="/html/init.jsp" %>
 
 <%
-boolean stopShowing = GetterUtil.getBoolean(request.getAttribute("stopShowing"));
+boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
 %>
 
 <li id="<portlet:namespace/>tip-of-the-day-menu" class="tip-of-the-day-help dropdown dockbar-item" role="presentation"> 
@@ -44,9 +44,9 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute("stopShowing"))
 </li>
 
 <portlet:renderURL var="contentURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
-	<portlet:param name="mvcPath" value="/html/dockbar/content.jsp"/>
-	<portlet:param name="articleIds" value="${articleIds}"/>
-	<portlet:param name="articleId" value="${nextArticleId}"/>
+	<portlet:param name="<%=WebKeys.MVC_PATH%>" value="<%=TipOfTheDayDockbarPortlet.CONTENT_VIEW%>"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_IDS%>" value="${articleIds}"/>
+	<portlet:param name="<%=WebKeys.ARTICLE_ID%>" value="${nextArticleId}"/>
 </portlet:renderURL>
 
 <aui:script use="tip-of-the-day-dockbar">
