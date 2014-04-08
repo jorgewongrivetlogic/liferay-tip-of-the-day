@@ -31,6 +31,7 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 		contentURL: null,
 		
 		initializer: function(){
+			var instance = this;
 			var box = this.get('container');
 			this.portletId = this.get('portletId');
 			this.portletNamespace = this.get('portletNamespace');
@@ -47,6 +48,18 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 				this.showPopUp();
 			}
 			this.setScrollHeight();
+			Liferay.on('tip-of-the-day:status', function(e) {
+				var switchButton = instance.switchButtons.item(0);
+				if (e.isOff) {
+					switchButton.removeClass('on');
+					switchButton.addClass('off');
+					switchButton.one('span').text('Off');
+				} else {
+					switchButton.removeClass('off');
+					switchButton.addClass('on');
+					switchButton.one('span').text('On');
+				};
+			});
 		},
 		
 		setComponents: function(container) {
@@ -165,7 +178,8 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 					var resourceURL= Liferay.PortletURL.createResourceURL();
 					resourceURL.setPortletId(instance.portletId);
 					resourceURL.setParameter('cmd', 'DISPLAY');
-					resourceURL.setParameter('stopShowing', func(element, e));
+					var switchState = func(element, e);
+					resourceURL.setParameter('stopShowing', switchState);
 					A.io(resourceURL.toString(), {
 						method: 'POST',
 						on: {
@@ -173,6 +187,11 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 								if (console) { 
 									console.error('failure on ajax call');
 								}
+							},
+							success: function() {
+			
+								window.parent.Liferay.fire('tip-of-the-day:status', {isOff: switchState});
+					
 							}
 						}
 					});
@@ -221,13 +240,13 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 					title: Liferay.Language.get('tip-of-the-day'),
 					uri: instance.contentURL
 				}, function(modal) {
-						instance.modal = modal;
-						instance.modal.after('visibleChange', function(){
-							if (instance.modal.get('visible') == false ) {
-								instance.setUserVisitance();
-							}
-						});
-	            }
+					instance.modal = modal;
+					instance.modal.after('visibleChange', function(){
+						if (instance.modal.get('visible') == false ) {
+							instance.setUserVisitance();  
+						}
+					});
+				}
 			);
 		},
 		
@@ -242,7 +261,6 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 		
 		setUserVisitance: function() {
 			var instance = this;
-			
 			var resourceURL= Liferay.PortletURL.createResourceURL();
 			resourceURL.setPortletId(instance.portletId);
 			resourceURL.setParameter('cmd', 'USER_STATUS');

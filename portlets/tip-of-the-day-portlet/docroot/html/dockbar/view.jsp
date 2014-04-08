@@ -55,8 +55,13 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SH
 		portletId: '<%= portletId %>',
 		portletNamespace: '<portlet:namespace/>',
 		contentURL: '<%= contentURL %>',
-	<c:if test="${showTips eq true }">
-		showPopUp: true 
-	</c:if>
+		<c:choose>
+			<c:when test="${showTips eq true }">
+				showPopUp: true 
+			</c:when>
+			<c:otherwise>
+				showPopUp: false 
+			</c:otherwise>
+		</c:choose>
 	});
 </aui:script>
