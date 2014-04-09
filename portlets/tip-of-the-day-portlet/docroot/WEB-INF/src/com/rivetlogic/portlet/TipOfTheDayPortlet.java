@@ -41,12 +41,18 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 /**
- * 
- * @author juancarrillo
+ * The Class TipOfTheDayPortlet.
  *
+ * @author juancarrillo
  */
 public class TipOfTheDayPortlet extends MVCPortlet {	
 	
+	/**
+	 * Save preferences.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 */
 	public void savePreferences(
 			ActionRequest request, ActionResponse response) {
 		
@@ -80,6 +86,9 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.liferay.util.bridges.mvc.MVCPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+	 */
 	@Override
 	public void doView(RenderRequest request,RenderResponse response) 
 			throws IOException, PortletException {
@@ -100,6 +109,7 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 		super.doView(request, response);
 	}
 	
+	/** The Constant logger. */
 	private static final Log logger = 
 			LogFactoryUtil.getLog(TipOfTheDayPortlet.class);
 	

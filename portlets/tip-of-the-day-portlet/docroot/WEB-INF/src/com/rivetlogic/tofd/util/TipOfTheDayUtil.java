@@ -33,10 +33,20 @@ import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
 
 import javax.portlet.PortletRequest;
 
+/**
+ * The Class TipOfTheDayUtil.
+ */
 public class TipOfTheDayUtil {
 	
 	/**
-	 * Get selected categories in control panel
+	 * Get selected categories in control panel.
+	 *
+	 * @param request the request
+	 * @param themeDisplay the theme display
+	 * @param categoryIds the category ids
+	 * @return the long[]
+	 * @throws PortalException the portal exception
+	 * @throws SystemException the system exception
 	 */
 	public static long[] retrieveCategories(PortletRequest request, 
 			ThemeDisplay themeDisplay, long[] categoryIds) 
@@ -71,6 +81,7 @@ public class TipOfTheDayUtil {
 		return categoryIds;
 	}
 	
+	/** The Constant logger. */
 	private static final Log logger = 
 			LogFactoryUtil.getLog(TipOfTheDayUtil.class);
 

@@ -56,15 +56,24 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 /**
- * @author juancarrillo
+ * The Class TipOfTheDayDockbarPortlet.
  *
+ * @author juancarrillo
  */
 public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	
+	/** The Constant CONTENT_VIEW. */
 	public static final String CONTENT_VIEW = "/html/dockbar/content.jsp";
+	
+	/** The Constant ATTR_SHOW_TIPS. */
 	private static final String ATTR_SHOW_TIPS = "showTips";
+	
+	/** The Constant ERROR_MESSAGE_NO_TIPS_DISPLAY. */
 	private static final String ERROR_MESSAGE_NO_TIPS_DISPLAY = "no-tips-to-display";
  
+	/* (non-Javadoc)
+	 * @see com.liferay.util.bridges.mvc.MVCPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+	 */
 	@Override
 	public void doView(RenderRequest request,RenderResponse response) 
 			throws IOException, PortletException {
@@ -78,6 +87,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		super.doView(request, response);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.portlet.GenericPortlet#render(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+	 */
 	@Override
 	public void render(RenderRequest request, RenderResponse response)
 			throws PortletException, IOException {
@@ -96,6 +108,9 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		super.render(request, response);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.liferay.util.bridges.mvc.MVCPortlet#serveResource(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse)
+	 */
 	@Override
 	public void serveResource(
 			ResourceRequest request, ResourceResponse response) 
@@ -124,6 +139,13 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		super.serveResource(request, response);
 	}
 	
+	/**
+	 * Sets the pop up visibility.
+	 *
+	 * @param request the request
+	 * @param themeDisplay the theme display
+	 * @param userStatus the user status
+	 */
 	private void setPopUpVisibility(RenderRequest request, 
 			ThemeDisplay themeDisplay, String userStatus) {
 		
@@ -138,8 +160,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					TipOfTheDayUtil.retrieveCategories(
 							request, themeDisplay, categoryIds);
 			
-			if (categoryIds != null ) {
-				getInitialArticlesToDisplay(request, categoryIds);
+			if (categoryIds != null && categoryIds.length > 0) {
+				if(getInitialArticlesToDisplay(request, categoryIds)){
+					showTips = false;
+				}
 				
 			} else {
 				showTips = false;
@@ -153,6 +177,16 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		
 	}
 	
+	/**
+	 * Check show tips.
+	 *
+	 * @param themeDisplay the theme display
+	 * @param userStatus the user status
+	 * @return true, if successful
+	 * @throws NumberFormatException the number format exception
+	 * @throws PortalException the portal exception
+	 * @throws SystemException the system exception
+	 */
 	private boolean checkShowTips(
 			ThemeDisplay themeDisplay, String userStatus) 
 		throws NumberFormatException, PortalException, SystemException {
@@ -205,7 +239,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * Actions called from dockbar switch and pop up checkbox 
+	 * Actions called from dockbar switch and pop up checkbox.
+	 *
+	 * @param stopShowing the stop showing
+	 * @param themeDisplay the theme display
 	 */
 	private void changeShowTips(
 			boolean stopShowing, ThemeDisplay themeDisplay) {
@@ -230,6 +267,12 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		}
 	}
 	
+	/**
+	 * Sets the user visitance.
+	 *
+	 * @param themeDisplay the theme display
+	 * @param userStatus the user status
+	 */
 	private void setUserVisitance(
 			ThemeDisplay themeDisplay, String userStatus) {
 		
@@ -253,7 +296,14 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		}
 	}
 	
-	private void getInitialArticlesToDisplay(
+	/**
+	 * Gets the initial articles to display.
+	 *
+	 * @param request the request
+	 * @param categoryIds the category ids
+	 * @return the initial articles to display
+	 */
+	private boolean getInitialArticlesToDisplay(
 			RenderRequest request, long[] categoryIds) {
 
 		List<JournalArticle> articles = 
@@ -275,8 +325,15 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		
 		if (logger.isDebugEnabled())
 			logger.debug("quantity of articles: "+articles.size());
+		
+		return articles.isEmpty();
 	}
 	
+	/**
+	 * Sets the article to display.
+	 *
+	 * @param request the new article to display
+	 */
 	private void setArticleToDisplay(RenderRequest request) {
 		
 		String articleIdsString = ParamUtil.getString(request, WebKeys.ARTICLE_IDS);
@@ -304,8 +361,12 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * User Status is needed for taking the decision about showing the pop up, 
-	 * and the checkbox status inside the pop up
+	 * User Status is needed for taking the decision about showing the pop up,
+	 * and the checkbox status inside the pop up.
+	 *
+	 * @param request the request
+	 * @param themeDisplay the theme display
+	 * @return the user status
 	 */
 	private String getUserStatus(
 			PortletRequest request, ThemeDisplay themeDisplay) {
@@ -341,6 +402,13 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		return userStatus;
 	}
 	
+	/**
+	 * Select tip.
+	 *
+	 * @param request the request
+	 * @param articleIds the article ids
+	 * @param currentArticleId the current article id
+	 */
 	private void selectTip(RenderRequest request, 
 			String[] articleIds, String currentArticleId) {
 		
@@ -394,6 +462,13 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		}
 	}
 	
+	/**
+	 * Choose previous selected tip.
+	 *
+	 * @param request the request
+	 * @param visited the visited
+	 * @param actualArticlePosition the actual article position
+	 */
 	private void choosePreviousSelectedTip(RenderRequest request, 
 			List<String> visited, int actualArticlePosition) {
 		
@@ -409,6 +484,15 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		request.setAttribute(WebKeys.PREV_ARTICLE_ID, prevArticleId);
 	}
 	
+	/**
+	 * Choose random tip.
+	 *
+	 * @param request the request
+	 * @param articleIds the article ids
+	 * @param visited the visited
+	 * @param visitedList the visited list
+	 * @param actualArticleId the actual article id
+	 */
 	private void chooseRandomTip(RenderRequest request, 
 			String[] articleIds, String[] visited, 
 			List<String> visitedList, String actualArticleId){
@@ -429,6 +513,14 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			logger.debug("nextRandomArticleId: "+ articleId);
 	}
 	
+	/**
+	 * Check tip visited.
+	 *
+	 * @param visited the visited
+	 * @param articleId the article id
+	 * @param actualArticleId the actual article id
+	 * @return true, if successful
+	 */
 	private boolean checkTipVisited(
 			String[] visited, String articleId, String actualArticleId) {
 		
@@ -449,6 +541,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		return isVisited;
 	}
 	
+	/** The Constant logger. */
 	private static final Log logger = 
 			LogFactoryUtil.getLog(TipOfTheDayDockbarPortlet.class);
 }
