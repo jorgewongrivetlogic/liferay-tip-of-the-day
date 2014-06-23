@@ -30,9 +30,15 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.GroupConstants;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.LayoutConstants;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.rivetlogic.model.TipsOfTheDayUsers;
@@ -44,11 +50,13 @@ import com.rivetlogic.tofd.util.WebKeys;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -70,6 +78,10 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	
 	/** The Constant ERROR_MESSAGE_NO_TIPS_DISPLAY. */
 	private static final String ERROR_MESSAGE_NO_TIPS_DISPLAY = "no-tips-to-display";
+	
+	/** The Constant CONTROL_PANEL_TIPS_PORTLET_ID. */
+	private static final String CONTROL_PANEL_TIPS_PORTLET_ID = "1_WAR_tipofthedayportlet";
+	
  
 	/* (non-Javadoc)
 	 * @see com.liferay.util.bridges.mvc.MVCPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
@@ -211,24 +223,35 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 				} else if (!userStatus.equals(
 						String.valueOf(!WebKeys.STATUS_RECEIVE))) {
 					
-					Calendar lastVisited = new GregorianCalendar();
-					lastVisited.setTimeInMillis(Long.valueOf(userStatus));
 					Calendar currentTime = 
-							new GregorianCalendar(themeDisplay.getTimeZone());
-					
-					Calendar today = 
-							new GregorianCalendar(
-									currentTime.get(Calendar.YEAR), 
-									currentTime.get(Calendar.MONTH), 
-									currentTime.get(Calendar.DAY_OF_MONTH));
-					
-					show = lastVisited.before(today);
-					
-					if (logger.isDebugEnabled()) {
-						logger.debug("last visited: "+ lastVisited.getTime().toString());
-						logger.debug("today: "+ today.getTime().toString());
+									new GregorianCalendar(themeDisplay.getTimeZone());					
+					long companyId = themeDisplay.getCompanyId();
+										
+					if(getEachLogin(companyId)){
+						Date loginDate = themeDisplay.getUser().getLoginDate();
+						show = ((currentTime.getTimeInMillis() - loginDate.getTime())/1000) < 1;
 					}
-				}
+					else{
+
+						Integer intervalDays = getIntervalDays(companyId) - 1;
+						Calendar lastVisited = new GregorianCalendar();
+						lastVisited.setTimeInMillis(Long.valueOf(userStatus));
+				
+						Calendar referenceDay = 
+								new GregorianCalendar(
+										currentTime.get(Calendar.YEAR), 
+										currentTime.get(Calendar.MONTH), 
+										currentTime.get(Calendar.DAY_OF_MONTH));
+						
+						referenceDay.add(Calendar.DAY_OF_MONTH, -intervalDays);				
+						show = lastVisited.before(referenceDay);
+						
+						if (logger.isDebugEnabled()) {
+							logger.debug("last visited: "+ lastVisited.getTime().toString());
+							logger.debug("today: "+ referenceDay.getTime().toString());
+						}
+					}	
+				} 
 			}
 		}
 		
@@ -539,6 +562,69 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		}
 		
 		return isVisited;
+	}
+	
+	/**
+	 * Get "each login" preference.
+	 * 
+	 * @param themeDisplay
+	 * @return the "each login" preference
+	 */
+	private Boolean getEachLogin(long companyId){
+		
+		PortletPreferences prefs = getCPPortletPreferences(companyId);
+		
+		return Boolean.valueOf(prefs != null ? 
+			prefs.getValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, 
+				WebKeys.TIPS_EACH_LOGIN_DEFAULT) : 
+					WebKeys.TIPS_EACH_LOGIN_DEFAULT);
+	}
+	
+	/**
+	 * Get "interval days" preference.
+	 * 
+	 * @param themeDisplay
+	 * @return the "interval days" preference
+	 */
+	private Integer getIntervalDays(long companyId){
+		
+		PortletPreferences prefs = getCPPortletPreferences(companyId);
+		
+		return Integer.valueOf(prefs != null ? 
+			prefs.getValue(WebKeys.TIPS_INTERVAL_VALUE, 
+				WebKeys.TIPS_INTERVAL_DEFAULT) : 
+					WebKeys.TIPS_INTERVAL_DEFAULT);
+	}
+	
+	/**
+	 * Get portlet preferences of the Control Panel Tips portlet.
+	 * 
+	 * @param themeDisplay
+	 * @return
+	 */
+	private PortletPreferences getCPPortletPreferences(long companyId){
+		long plidCP = 0;
+		PortletPreferences prefs = null;
+		
+		try{
+			Group groupTemp = GroupLocalServiceUtil.getGroup(companyId, 
+				GroupConstants.CONTROL_PANEL);
+			List<Layout> layoutList = LayoutLocalServiceUtil.getLayouts(
+				groupTemp.getGroupId(), true, LayoutConstants.TYPE_CONTROL_PANEL);
+			
+			if(layoutList != null && !layoutList.isEmpty()) {
+				plidCP = layoutList.get(0).getPlid(); 
+			}		
+			
+			prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId, 
+				PortletKeys.PREFS_OWNER_ID_DEFAULT, PortletKeys.PREFS_OWNER_TYPE_LAYOUT, 
+				plidCP, CONTROL_PANEL_TIPS_PORTLET_ID);
+			
+		} catch(Exception e){
+			logger.error("Error getting eachLogin preference", e);
+		}
+		
+		return prefs;	
 	}
 	
 	/** The Constant logger. */
