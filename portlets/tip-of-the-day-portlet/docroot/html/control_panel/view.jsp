@@ -26,10 +26,46 @@
 </portlet:actionURL>
 
 <aui:form name="tips-of-day-fm" action="<%= savePreferencesURL %>" method="post">
+
 	<aui:fieldset label="tof-category-select">
 		<aui:input name="<%=WebKeys.TIPS_CATEGORIES_ID%>" value="${tipsCategoriesId}" type="hidden"/>
 		<liferay-ui:asset-categories-selector curCategoryIds="${curCategoryIds}" />
         <div class="clearfix"></div>
 	</aui:fieldset>
+	<br><br>
+	<aui:fieldset label="tof-how-often-select">
+		<aui:field-wrapper name="tips-often" label="">
+			<aui:input inlineLabel="right" name="<%=WebKeys.TIPS_OFTEN_RADIO%>" type="radio" 
+			value="<%=WebKeys.TIPS_EACH_LOGIN%>" label="tof-each-login"  checked="${tipsEachLoginChecked}"/>
+			
+			<aui:input inlineLabel="right" name="<%=WebKeys.TIPS_OFTEN_RADIO%>" type="radio" 
+			value="<%=WebKeys.TIPS_INTERVAL_DAYS%>" label="tof-interval-days" checked="${!tipsEachLoginChecked}" />		
+		</aui:field-wrapper>
+		<aui:input name="<%=WebKeys.TIPS_INTERVAL_VALUE%>" value="${tipsIntervalValue}" type="number" min="1" label="" />
+	</aui:fieldset>
+	
 	<aui:input name="submit" label="" value='<%= LanguageUtil.get(pageContext, "tof-save-preferences") %>' type="submit"/>
 </aui:form>
+
+<aui:script use="aui-base">	
+ 	<c:choose>
+	 	<c:when test="${tipsEachLoginChecked}">
+			A.one('#<portlet:namespace/><%=WebKeys.TIPS_INTERVAL_VALUE%>').hide();
+		</c:when>
+		<c:otherwise>
+			A.one('#<portlet:namespace/><%=WebKeys.TIPS_INTERVAL_VALUE%>').show();
+		</c:otherwise>
+	</c:choose>
+	
+	A.all('[name=<portlet:namespace/><%=WebKeys.TIPS_OFTEN_RADIO%>]').on('click', function(){
+			
+		var tipsOften = A.one('[name=<portlet:namespace/><%=WebKeys.TIPS_OFTEN_RADIO%>]:checked').get('value');
+		
+		if (tipsOften == '<%=WebKeys.TIPS_EACH_LOGIN%>'){
+			A.one('#<portlet:namespace/><%=WebKeys.TIPS_INTERVAL_VALUE%>').hide();
+		}
+		else{
+			A.one('#<portlet:namespace/><%=WebKeys.TIPS_INTERVAL_VALUE%>').show();
+		}
+	});
+</aui:script>
