@@ -3,7 +3,7 @@
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
 	<portlet>
 		<portlet-name>1</portlet-name>
-		<display-name>Tip of the Day</display-name>
+		<display-name>Tips</display-name>
 		<portlet-class>
 			com.rivetlogic.portlet.TipOfTheDayPortlet
 		</portlet-class>
@@ -17,9 +17,9 @@
 		</supports>
 		<resource-bundle>content/Language</resource-bundle>
 		<portlet-info>
-			<title>Tip of the Day</title>
-			<short-title>Tip of the Day</short-title>
-			<keywords>Tip of the Day</keywords>
+			<title>Tips</title>
+			<short-title>Tips</short-title>
+			<keywords>Tips</keywords>
 		</portlet-info>
 		<portlet-preferences>
 			<preference>
@@ -42,7 +42,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>2</portlet-name>
-		<display-name>Tip of the Day Dockbar</display-name>
+		<display-name>Tips Dockbar</display-name>
 		<portlet-class>
 			com.rivetlogic.portlet.TipOfTheDayDockbarPortlet
 		</portlet-class>
@@ -57,8 +57,8 @@
 		</supports>
 		<resource-bundle>content/Language</resource-bundle>
 		<portlet-info>
-			<title>Tip of the Day Dockbar</title>
-			<short-title>Tip of the Day Dockbar</short-title>
+			<title>Tips Dockbar</title>
+			<short-title>Tips Dockbar</short-title>
 			<keywords></keywords>
 		</portlet-info>
 		<security-role-ref>
