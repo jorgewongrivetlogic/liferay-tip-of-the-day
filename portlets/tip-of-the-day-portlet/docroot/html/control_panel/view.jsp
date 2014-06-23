@@ -44,7 +44,7 @@
 		<aui:input name="<%=WebKeys.TIPS_INTERVAL_VALUE%>" value="${tipsIntervalValue}" type="number" min="1" label="" />
 	</aui:fieldset>
 	
-	<aui:input name="submit" label="" value='<%= LanguageUtil.get(pageContext, "tof-save-preferences") %>' type="submit"/>
+	<aui:input name="submit" cssClass="btn btn-primary" label="" value='<%= LanguageUtil.get(pageContext, "tof-save-preferences") %>' type="submit"/>
 </aui:form>
 
 <aui:script use="aui-base">	
