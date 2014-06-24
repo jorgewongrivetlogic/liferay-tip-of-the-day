@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.rivetlogic.model.TipsOfTheDayCategories;
@@ -37,8 +38,11 @@ import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ValidatorException;
 
 /**
  * The Class TipOfTheDayPortlet.
@@ -52,17 +56,32 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 	 *
 	 * @param request the request
 	 * @param response the response
+	 * @throws ReadOnlyException 
+	 * @throws IOException 
+	 * @throws ValidatorException 
 	 */
 	public void savePreferences(
-			ActionRequest request, ActionResponse response) {
+			ActionRequest request, ActionResponse response) 
+							throws ReadOnlyException, ValidatorException, IOException {
 		
 		ThemeDisplay themeDisplay = 
 				(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		PortletPreferences prefs = request.getPreferences();
 		
 		String categoryIds = 
 				ParamUtil.getString(request, WebKeys.ASSET_CATEGORY_IDS);
 		long resourcePrimKey = 
 				ParamUtil.getLong(request, WebKeys.TIPS_CATEGORIES_ID);
+		Integer interval = 
+				ParamUtil.getInteger(request, WebKeys.TIPS_INTERVAL_VALUE);
+		String oftenRadio = 
+				ParamUtil.getString(request, WebKeys.TIPS_OFTEN_RADIO);
+		Boolean eachLogin = WebKeys.TIPS_EACH_LOGIN.equals(oftenRadio); 
+				
+		prefs.setValue(WebKeys.TIPS_INTERVAL_VALUE, interval.toString());
+		prefs.setValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, eachLogin.toString());		
+		prefs.store();
 		
 		TipsOfTheDayCategories categories = 
 				new TipsOfTheDayCategoriesImpl();
@@ -96,11 +115,19 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = 
 				(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
+		PortletPreferences prefs = request.getPreferences();
+		
 		try {
 			long[] categoryIds = new long[0];
 			
 			TipOfTheDayUtil.retrieveCategories(
 					request, themeDisplay, categoryIds);
+			
+			request.setAttribute(WebKeys.TIPS_EACH_LOGIN_CHECKED, 
+				prefs.getValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, WebKeys.TIPS_EACH_LOGIN_DEFAULT));
+			
+			request.setAttribute(WebKeys.TIPS_INTERVAL_VALUE, 
+				prefs.getValue(WebKeys.TIPS_INTERVAL_VALUE, WebKeys.TIPS_INTERVAL_DEFAULT));
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving categories", e);

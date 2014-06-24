@@ -74,6 +74,27 @@ public class WebKeys implements com.liferay.portal.kernel.util.WebKeys {
 	
 	/** The Constant TIPS_CATEGORIES_ID. */
 	public static final String TIPS_CATEGORIES_ID = "tipsCategoriesId";
+
+	/** The Constant TIPS_OFTEN_RADIO. */
+	public static final String TIPS_OFTEN_RADIO = "tipsOftenRadio";
+	
+	/** The Constant TIPS_EACH_LOGIN. */
+	public static final String TIPS_EACH_LOGIN = "tipsEachLogin";
+
+	/** The Constant TIPS_EACH_LOGIN_CHECKED. */
+	public static final String TIPS_EACH_LOGIN_CHECKED = "tipsEachLoginChecked";
+	
+	/** The Constant TIPS_EACH_LOGIN. */
+	public static final String TIPS_EACH_LOGIN_DEFAULT = Boolean.TRUE.toString();
+	
+	/** The Constant TIPS_EACH_LOGIN. */
+	public static final String TIPS_INTERVAL_DAYS = "tipsIntervalDays";
+	
+	/** The Constant TIPS_INTERVAL_ID. */
+	public static final String TIPS_INTERVAL_VALUE = "tipsIntervalValue";
+	
+	/** The Constant DEFAULT_INTERVAL. */
+	public static final String TIPS_INTERVAL_DEFAULT = "1";
 	
 	/** The Constant MVC_PATH. */
 	public static final String MVC_PATH = "mvcPath";
