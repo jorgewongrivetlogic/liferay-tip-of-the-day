@@ -78,9 +78,11 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 		String oftenRadio = 
 				ParamUtil.getString(request, WebKeys.TIPS_OFTEN_RADIO);
 		Boolean eachLogin = WebKeys.TIPS_EACH_LOGIN.equals(oftenRadio); 
+		Boolean showArticleTitle = ParamUtil.getBoolean(request, WebKeys.SHOW_ARTICLE_TITLE);
 				
 		prefs.setValue(WebKeys.TIPS_INTERVAL_VALUE, interval.toString());
 		prefs.setValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, eachLogin.toString());		
+		prefs.setValue(WebKeys.SHOW_ARTICLE_TITLE, showArticleTitle.toString());
 		prefs.store();
 		
 		TipsOfTheDayCategories categories = 
@@ -128,6 +130,9 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 			
 			request.setAttribute(WebKeys.TIPS_INTERVAL_VALUE, 
 				prefs.getValue(WebKeys.TIPS_INTERVAL_VALUE, WebKeys.TIPS_INTERVAL_DEFAULT));
+			request.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, prefs.getValue(
+					WebKeys.SHOW_ARTICLE_TITLE,
+					WebKeys.SHOW_ARTICLE_TITLE_DEFAULT));
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving categories", e);

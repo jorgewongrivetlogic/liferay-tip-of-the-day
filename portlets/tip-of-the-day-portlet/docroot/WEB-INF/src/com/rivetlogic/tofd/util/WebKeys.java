@@ -101,4 +101,10 @@ public class WebKeys implements com.liferay.portal.kernel.util.WebKeys {
 	
 	/** The Constant ASSET_CATEGORY_IDS. */
 	public static final String ASSET_CATEGORY_IDS = "assetCategoryIds";
+	
+	/** The Constant to show article title in the popup header */
+	public static final String SHOW_ARTICLE_TITLE = "showArticleTitle";
+	
+	/** The default value of show article title in the header */
+	public static final String SHOW_ARTICLE_TITLE_DEFAULT = Boolean.FALSE.toString();
 }

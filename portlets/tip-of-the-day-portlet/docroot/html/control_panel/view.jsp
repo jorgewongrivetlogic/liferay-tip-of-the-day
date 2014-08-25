@@ -43,7 +43,10 @@
 		</aui:field-wrapper>
 		<aui:input name="<%=WebKeys.TIPS_INTERVAL_VALUE%>" value="${tipsIntervalValue}" type="number" min="1" label="" />
 	</aui:fieldset>
-	
+	<br><br>
+	<aui:fieldset label="show-article-title-select">
+		<aui:input name="<%=WebKeys.SHOW_ARTICLE_TITLE %>" value="${showArticleTitle}" type="checkbox" label="show-article-title" />
+	</aui:fieldset>
 	<aui:input name="submit" cssClass="btn btn-primary" label="" value='<%= LanguageUtil.get(pageContext, "tof-save-preferences") %>' type="submit"/>
 </aui:form>
 

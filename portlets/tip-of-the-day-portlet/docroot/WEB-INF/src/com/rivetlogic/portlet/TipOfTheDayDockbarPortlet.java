@@ -38,6 +38,7 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -365,6 +366,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		String[] articleIds = StringUtil.split(articleIdsString);
 		String articleId = ParamUtil.getString(request, WebKeys.ARTICLE_ID);
 		request.setAttribute(WebKeys.ARTICLE_ID, articleId);
+		request.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, getShowArticleTitle(PortalUtil.getCompanyId(request)));
 		
 		if (articleIds.length > 0) {
 			
@@ -596,6 +598,14 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					WebKeys.TIPS_INTERVAL_DEFAULT);
 	}
 	
+	private Boolean getShowArticleTitle(long companyId) {
+		PortletPreferences prefs = getCPPortletPreferences(companyId);
+		
+		return Boolean.valueOf(prefs != null ? 
+				prefs.getValue(WebKeys.SHOW_ARTICLE_TITLE, 
+					WebKeys.SHOW_ARTICLE_TITLE_DEFAULT) : 
+						WebKeys.SHOW_ARTICLE_TITLE_DEFAULT);
+	}
 	/**
 	 * Get portlet preferences of the Control Panel Tips portlet.
 	 * 
