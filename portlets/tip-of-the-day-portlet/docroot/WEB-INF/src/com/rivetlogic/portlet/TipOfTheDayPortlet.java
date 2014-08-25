@@ -19,20 +19,6 @@
 
 package com.rivetlogic.portlet;
 
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.util.bridges.mvc.MVCPortlet;
-import com.rivetlogic.model.TipsOfTheDayCategories;
-import com.rivetlogic.model.impl.TipsOfTheDayCategoriesImpl;
-import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
-import com.rivetlogic.tofd.util.TipOfTheDayUtil;
-import com.rivetlogic.tofd.util.WebKeys;
-
 import java.io.IOException;
 
 import javax.portlet.ActionRequest;
@@ -43,6 +29,19 @@ import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ValidatorException;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.rivetlogic.model.TipsOfTheDayCategories;
+import com.rivetlogic.model.impl.TipsOfTheDayCategoriesImpl;
+import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
+import com.rivetlogic.tofd.util.TipOfTheDayUtil;
+import com.rivetlogic.tofd.util.WebKeys;
 
 /**
  * The Class TipOfTheDayPortlet.
