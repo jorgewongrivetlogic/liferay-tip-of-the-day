@@ -25,6 +25,7 @@
 boolean disablePrev = GetterUtil.getBoolean(request.getAttribute("disablePrev"));
 boolean disableNext = GetterUtil.getBoolean(request.getAttribute("disableNext"));
 boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
+boolean showArticleTitle = GetterUtil.getBoolean(request.getAttribute(WebKeys.SHOW_ARTICLE_TITLE));
 %>
 
 <portlet:renderURL var="previousURL">
@@ -45,7 +46,7 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SH
     <div class="tip-content">
         <c:choose>
             <c:when test="${not empty articleId}">
-                <liferay-ui:journal-article groupId="<%=themeDisplay.getScopeGroupId()%>" articleId="${articleId}" />
+                <liferay-ui:journal-article groupId="<%=themeDisplay.getScopeGroupId()%>" articleId="${articleId}" showTitle="${showArticleTitle}" />
             </c:when>
             <c:otherwise>
                 <div class="portlet-msg-info">

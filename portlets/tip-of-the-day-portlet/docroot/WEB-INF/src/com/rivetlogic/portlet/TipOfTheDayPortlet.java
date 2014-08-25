@@ -19,20 +19,6 @@
 
 package com.rivetlogic.portlet;
 
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.util.bridges.mvc.MVCPortlet;
-import com.rivetlogic.model.TipsOfTheDayCategories;
-import com.rivetlogic.model.impl.TipsOfTheDayCategoriesImpl;
-import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
-import com.rivetlogic.tofd.util.TipOfTheDayUtil;
-import com.rivetlogic.tofd.util.WebKeys;
-
 import java.io.IOException;
 
 import javax.portlet.ActionRequest;
@@ -43,6 +29,19 @@ import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ValidatorException;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.rivetlogic.model.TipsOfTheDayCategories;
+import com.rivetlogic.model.impl.TipsOfTheDayCategoriesImpl;
+import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
+import com.rivetlogic.tofd.util.TipOfTheDayUtil;
+import com.rivetlogic.tofd.util.WebKeys;
 
 /**
  * The Class TipOfTheDayPortlet.
@@ -78,9 +77,11 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 		String oftenRadio = 
 				ParamUtil.getString(request, WebKeys.TIPS_OFTEN_RADIO);
 		Boolean eachLogin = WebKeys.TIPS_EACH_LOGIN.equals(oftenRadio); 
+		Boolean showArticleTitle = ParamUtil.getBoolean(request, WebKeys.SHOW_ARTICLE_TITLE);
 				
 		prefs.setValue(WebKeys.TIPS_INTERVAL_VALUE, interval.toString());
 		prefs.setValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, eachLogin.toString());		
+		prefs.setValue(WebKeys.SHOW_ARTICLE_TITLE, showArticleTitle.toString());
 		prefs.store();
 		
 		TipsOfTheDayCategories categories = 
@@ -128,6 +129,9 @@ public class TipOfTheDayPortlet extends MVCPortlet {
 			
 			request.setAttribute(WebKeys.TIPS_INTERVAL_VALUE, 
 				prefs.getValue(WebKeys.TIPS_INTERVAL_VALUE, WebKeys.TIPS_INTERVAL_DEFAULT));
+			request.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, prefs.getValue(
+					WebKeys.SHOW_ARTICLE_TITLE,
+					WebKeys.SHOW_ARTICLE_TITLE_DEFAULT));
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving categories", e);
