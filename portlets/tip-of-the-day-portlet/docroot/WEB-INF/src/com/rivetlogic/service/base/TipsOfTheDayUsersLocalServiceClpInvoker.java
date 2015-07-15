@@ -106,27 +106,37 @@ public class TipsOfTheDayUsersLocalServiceClpInvoker {
 				"com.rivetlogic.model.TipsOfTheDayUsers"
 			};
 
-		_methodName44 = "getBeanIdentifier";
+		_methodName50 = "getBeanIdentifier";
 
-		_methodParameterTypes44 = new String[] {  };
+		_methodParameterTypes50 = new String[] {  };
 
-		_methodName45 = "setBeanIdentifier";
+		_methodName51 = "setBeanIdentifier";
 
-		_methodParameterTypes45 = new String[] { "java.lang.String" };
+		_methodParameterTypes51 = new String[] { "java.lang.String" };
 
-		_methodName50 = "setUser";
+		_methodName56 = "setUserStatus";
 
-		_methodParameterTypes50 = new String[] {
+		_methodParameterTypes56 = new String[] {
 				"long", "long", "long", "java.lang.String"
 			};
 
-		_methodName51 = "getUser";
+		_methodName57 = "setUserShowAll";
 
-		_methodParameterTypes51 = new String[] { "long", "long", "long" };
+		_methodParameterTypes57 = new String[] {
+				"long", "long", "long", "java.lang.Boolean"
+			};
 
-		_methodName52 = "getUserStatus";
+		_methodName58 = "getUser";
 
-		_methodParameterTypes52 = new String[] { "long", "long", "long" };
+		_methodParameterTypes58 = new String[] { "long", "long", "long" };
+
+		_methodName59 = "getUserStatus";
+
+		_methodParameterTypes59 = new String[] { "long", "long", "long" };
+
+		_methodName60 = "getUserShowAll";
+
+		_methodParameterTypes60 = new String[] { "long", "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -218,37 +228,54 @@ public class TipsOfTheDayUsersLocalServiceClpInvoker {
 			return TipsOfTheDayUsersLocalServiceUtil.updateTipsOfTheDayUsers((com.rivetlogic.model.TipsOfTheDayUsers)arguments[0]);
 		}
 
-		if (_methodName44.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes44, parameterTypes)) {
+		if (_methodName50.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
 			return TipsOfTheDayUsersLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName45.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes45, parameterTypes)) {
+		if (_methodName51.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			TipsOfTheDayUsersLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName50.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
-			TipsOfTheDayUsersLocalServiceUtil.setUser(((Long)arguments[0]).longValue(),
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+			TipsOfTheDayUsersLocalServiceUtil.setUserStatus(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 
 			return null;
 		}
 
-		if (_methodName51.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
+		if (_methodName57.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+			TipsOfTheDayUsersLocalServiceUtil.setUserShowAll(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Long)arguments[2]).longValue(),
+				(java.lang.Boolean)arguments[3]);
+
+			return null;
+		}
+
+		if (_methodName58.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
 			return TipsOfTheDayUsersLocalServiceUtil.getUser(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue());
 		}
 
-		if (_methodName52.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			return TipsOfTheDayUsersLocalServiceUtil.getUserStatus(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Long)arguments[2]).longValue());
+		}
+
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return TipsOfTheDayUsersLocalServiceUtil.getUserShowAll(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue());
 		}
@@ -288,14 +315,18 @@ public class TipsOfTheDayUsersLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName44;
-	private String[] _methodParameterTypes44;
-	private String _methodName45;
-	private String[] _methodParameterTypes45;
 	private String _methodName50;
 	private String[] _methodParameterTypes50;
 	private String _methodName51;
 	private String[] _methodParameterTypes51;
-	private String _methodName52;
-	private String[] _methodParameterTypes52;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
+	private String _methodName57;
+	private String[] _methodParameterTypes57;
+	private String _methodName58;
+	private String[] _methodParameterTypes58;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
 }

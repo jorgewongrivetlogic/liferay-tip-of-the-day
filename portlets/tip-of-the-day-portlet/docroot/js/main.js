@@ -20,11 +20,11 @@
 AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 	
 	A.TipOfTheDay = A.Base.create('tip-of-the-day-dockbar', A.Base, [], {
-		switchButtons : null,
+		navLabels : null,
+		navCheckboxes : null,
 		closeButtons : null,
 		portletId : null,
 		portletNamespace: null,
-		showCheckboxes : null,
 		dropdowns: null,
 		modal: null,
 		menuOptionsDisplay: null,
@@ -35,9 +35,9 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 			var box = this.get('container');
 			this.portletId = this.get('portletId');
 			this.portletNamespace = this.get('portletNamespace');
-			this.switchButtons = box.all(".switch-off-on");
+			this.navLabels = box.all(".tof-checkbox-label");
+			this.navCheckboxes = box.all(".tof-checkbox");
 			this.closeButtons = box.all(".tofd-close-pop-up");
-			this.showCheckboxes = box.all(".ajax-checkbox-action");
 			this.dropdowns = box.all(".dropdown-toggle");
 			this.menuOptionsDisplay = box.all(".tip-of-the-day-menu .display-pop-up");
 			this.contentURL = this.get('contentURL');
@@ -48,54 +48,26 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 				this.showPopUp();
 			}
 			this.setScrollHeight();
-			Liferay.on('tip-of-the-day:status', function(e) {
-				var switchButton = instance.switchButtons.item(0);
-				if (e.isOff) {
-					switchButton.removeClass('on');
-					switchButton.addClass('off');
-					switchButton.one('span').text('Off');
-				} else {
-					switchButton.removeClass('off');
-					switchButton.addClass('on');
-					switchButton.one('span').text('On');
-				};
-			});
 		},
 		
 		setComponents: function(container) {
 			var instance = this;
 			
-			this.switchButtons.each(function(switchButton){
-				instance.chooseDisplayPopUp(switchButton, 
-					function(switchButton, e){
-						e.stopPropagation();
-						e.preventDefault();
-						var switchState;
-						if (switchButton.hasClass('on')) {
-							switchButton.removeClass('on');
-							switchButton.addClass('off');
-							switchButton.get('children').filter('span').text('Off');
-							switchState = false;
-						} else {
-							switchButton.removeClass('off');
-							switchButton.addClass('on');
-							switchButton.get('children').filter('span').text('On');
-							switchState = true;
-						}
-						return !switchState;
-					}
-				);
-				
-				switchButton.on('mouseover', function(e){
-					var thisElement = this;
-					new A.Tooltip({
-		    		   	bodyContent: Liferay.Language.get('tof-switch'),
-		    		    trigger: '#'+thisElement.get('id'),
-		    		    opacity: 1,
-		    		    cssClass:'tooltip-switch-btn',
-		    		    showArrow: false,
-		    		    position: 'left'
-		 			}).render();
+			this.navCheckboxes.each(function(checkbox){
+				checkbox.on("click", function(e){
+					e.stopPropagation();
+					instance.processCheckboxChange(this);
+				});
+			});
+			
+			this.navLabels.each(function(label){
+				label.on("click",function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					var checkbox = label.one("input");
+					var state = checkbox.get("checked");
+					checkbox.set("checked", !state);
+					instance.processCheckboxChange(checkbox);
 				});
 			});
 			
@@ -103,14 +75,6 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 				closeButton.on('click', 
 						new Function(instance.closePopUpFunctionName + '();')
 				);
-			});
-			
-			this.showCheckboxes.each(function(checkbox){
-				instance.chooseDisplayPopUp(checkbox, 
-						function(box){
-							return box.get('checked');
-						}
-				);	
 			});
 			
 			this.dropdowns.each(function(dropdown){
@@ -131,12 +95,7 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 			this.menuOptionsDisplay.each(function(menuOption){
 				menuOption.on('click', function(e){
 					e.preventDefault();
-			        if (instance.modal) {
-			        	instance.modal.show();
-			        	instance.modal.align();
-			        } else {
-			        	instance.showPopUp();
-			        }
+					instance.showPopUp();
 				});
 			});
 			
@@ -170,33 +129,31 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 			);
 		},
 		
-		/*Ajax call to change user preference about displaying the pop up*/
-		chooseDisplayPopUp: function(element, func) {
+		processCheckboxChange: function(checkbox) {
 			var instance = this;
-			if (element) {
-				element.on('click', function(e){
-					var resourceURL= Liferay.PortletURL.createResourceURL();
-					resourceURL.setPortletId(instance.portletId);
-					resourceURL.setParameter('cmd', 'DISPLAY');
-					var switchState = func(element, e);
-					resourceURL.setParameter('stopShowing', switchState);
-					A.io(resourceURL.toString(), {
-						method: 'POST',
-						on: {
-							failure: function () {
-								if (console) { 
-									console.error('failure on ajax call');
-								}
-							},
-							success: function() {
-			
-								window.parent.Liferay.fire('tip-of-the-day:status', {isOff: switchState});
-					
-							}
-						}
-					});
-				});
+			var id = checkbox.get("id");
+			var resourceURL= Liferay.PortletURL.createResourceURL();
+			resourceURL.setPortletId(instance.portletId);
+			resourceURL.setParameter('cmd', 'DISPLAY');
+			var state = checkbox.get("checked");
+			var changedValue = '';
+			if(id == "tof-checkbox-only-new") {
+				changedValue = 'showAllTips';            
+			} else if(id == "tof-checkbox-show") {
+				changedValue = 'stopShowing'; 
 			}
+			resourceURL.setParameter('changedValue', changedValue);
+			resourceURL.setParameter(changedValue, !state);
+			A.io(resourceURL.toString(), {
+				method: 'POST',
+				on: {
+					failure: function () {
+						if (console) { 
+							console.error('failure on ajax call');
+						}
+					}
+				}
+			});
 		},
 		
 		/*Resizes the pop up when the content changes*/
@@ -243,7 +200,8 @@ AUI.add('tip-of-the-day-dockbar', function (A, NAME) {
 					instance.modal = modal;
 					instance.modal.after('visibleChange', function(){
 						if (instance.modal.get('visible') == false ) {
-							instance.setUserVisitance();  
+							instance.setUserVisitance();
+							this.destroy();
 						}
 					});
 				}

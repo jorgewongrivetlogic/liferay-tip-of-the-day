@@ -254,6 +254,10 @@ public class TipsOfTheDayCategoriesClp extends BaseModelImpl<TipsOfTheDayCategor
 		}
 	}
 
+	public Class<?> getClpSerializerClass() {
+		return _clpSerializerClass;
+	}
+
 	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
@@ -297,4 +301,5 @@ public class TipsOfTheDayCategoriesClp extends BaseModelImpl<TipsOfTheDayCategor
 	private long _groupId;
 	private String _categories;
 	private BaseModel<?> _tipsOfTheDayCategoriesRemoteModel;
+	private Class<?> _clpSerializerClass = com.rivetlogic.service.ClpSerializer.class;
 }

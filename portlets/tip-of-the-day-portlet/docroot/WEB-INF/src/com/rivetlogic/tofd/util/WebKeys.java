@@ -39,8 +39,14 @@ public class WebKeys implements com.liferay.portal.kernel.util.WebKeys {
 	/** The Constant CHANGE_USER_STATUS. */
 	public final static String CHANGE_USER_STATUS = "USER_STATUS";
 	
+	/** The Constant CHANGED_VALUE. */
+    public static final String CHANGED_VALUE = "changedValue";
+    
 	/** The Constant STOP_SHOWING. */
 	public static final String STOP_SHOWING = "stopShowing";
+	
+	/** The Constant SHOW_ALL_TIPS. */
+    public static final String SHOW_ALL_TIPS = "showAllTips";
 	
 	/** The Constant USER_STATUS. */
 	public static final String USER_STATUS = "userStatus";
@@ -68,6 +74,9 @@ public class WebKeys implements com.liferay.portal.kernel.util.WebKeys {
 	
 	/** The Constant STATUS_RECEIVE. */
 	public static final boolean STATUS_RECEIVE = true;
+	
+    /** The Constant SHOW_ALL_DEFAULT. */
+    public static final boolean SHOW_ALL_DEFAULT = false;
 	
 	/** The Constant CUR_CATEGORY_IDS. */
 	public static final String CUR_CATEGORY_IDS = "curCategoryIds";

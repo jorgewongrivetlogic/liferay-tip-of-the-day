@@ -27,9 +27,13 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.rivetlogic.NoSuchTipsOfTheDayCategoriesException;
 import com.rivetlogic.model.TipsOfTheDayCategories;
 import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
+import com.rivetlogic.service.TipsOfTheDayVisitedLocalServiceUtil;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.portlet.PortletRequest;
 
@@ -79,6 +83,37 @@ public class TipOfTheDayUtil {
 		}
 		
 		return categoryIds;
+	}
+	
+	/**
+	 * Get the tips already seen by the user.
+	 * 
+	 * @param themeDisplay
+	 * @return list of ids already seen by the user
+	 * @throws SystemException
+	 */
+	public static List<String> getVisitedTips(ThemeDisplay themeDisplay) throws SystemException {
+	    List<String> ids = new LinkedList<String>();
+	    ids = TipsOfTheDayVisitedLocalServiceUtil.getVisitedTipsIds(
+	            themeDisplay.getCompanyId(),
+	            themeDisplay.getScopeGroupId(),
+	            themeDisplay.getUserId());
+	    return ids;
+	}
+	
+	/**
+	 * Stores the id of a tip been visited by the user.
+	 * 
+	 * @param request
+	 * @param tipId
+	 * @throws PortalException
+	 * @throws SystemException
+	 */
+	public static void saveVisitedTip(PortletRequest request, String tipId) throws PortalException, SystemException {
+	    long companyId = PortalUtil.getCompanyId(request);
+	    long groupId = PortalUtil.getScopeGroupId(request);
+	    long userId = PortalUtil.getUserId(request);
+	    TipsOfTheDayVisitedLocalServiceUtil.addVisitedTip(companyId, groupId, userId, tipId);
 	}
 	
 	/** The Constant logger. */

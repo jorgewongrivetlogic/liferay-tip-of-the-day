@@ -275,11 +275,18 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static void setUser(long companyId, long groupId, long userId,
+	public static void setUserStatus(long companyId, long groupId, long userId,
 		java.lang.String status)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		getService().setUser(companyId, groupId, userId, status);
+		getService().setUserStatus(companyId, groupId, userId, status);
+	}
+
+	public static void setUserShowAll(long companyId, long groupId,
+		long userId, java.lang.Boolean showAll)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().setUserShowAll(companyId, groupId, userId, showAll);
 	}
 
 	public static com.rivetlogic.model.TipsOfTheDayUsers getUser(
@@ -290,8 +297,17 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 	}
 
 	public static java.lang.String getUserStatus(long companyId, long groupId,
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getUserStatus(companyId, groupId, userId);
+	}
+
+	public static boolean getUserShowAll(long companyId, long groupId,
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserShowAll(companyId, groupId, userId);
 	}
 
 	public static void clearService() {

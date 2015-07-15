@@ -159,6 +159,27 @@ public interface TipsOfTheDayUsersModel extends BaseModel<TipsOfTheDayUsers> {
 	 */
 	public void setStatus(String status);
 
+	/**
+	 * Returns the show all of this Tips of the Day Users.
+	 *
+	 * @return the show all of this Tips of the Day Users
+	 */
+	public boolean getShowAll();
+
+	/**
+	 * Returns <code>true</code> if this Tips of the Day Users is show all.
+	 *
+	 * @return <code>true</code> if this Tips of the Day Users is show all; <code>false</code> otherwise
+	 */
+	public boolean isShowAll();
+
+	/**
+	 * Sets whether this Tips of the Day Users is show all.
+	 *
+	 * @param showAll the show all of this Tips of the Day Users
+	 */
+	public void setShowAll(boolean showAll);
+
 	@Override
 	public boolean isNew();
 

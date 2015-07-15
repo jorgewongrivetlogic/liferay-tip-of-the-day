@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -135,13 +136,17 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		String action = ParamUtil.getString(request, Constants.CMD);
 		
 		if (action.equals(WebKeys.DISPLAY)) {
-			boolean stopShowing = 
-					ParamUtil.getBoolean(request, WebKeys.STOP_SHOWING);
-			
-			if (logger.isDebugEnabled())
-				logger.debug(WebKeys.STOP_SHOWING+StringPool.COLON+stopShowing);
-			
-			changeShowTips(stopShowing, themeDisplay);
+		    String changedValue = ParamUtil.getString(request, WebKeys.CHANGED_VALUE);
+		    if(changedValue.equals(WebKeys.STOP_SHOWING)) {
+		        boolean stopShowing = 
+	                    ParamUtil.getBoolean(request, WebKeys.STOP_SHOWING);
+		        if (logger.isDebugEnabled())
+	                logger.debug(WebKeys.STOP_SHOWING+StringPool.COLON+stopShowing);
+		        changeShowTips(stopShowing, themeDisplay);
+		    } else if(changedValue.equals(WebKeys.SHOW_ALL_TIPS)) {
+		        boolean showAll = ParamUtil.getBoolean(request,WebKeys.SHOW_ALL_TIPS);
+		        changeShowAll(showAll, themeDisplay);
+		    }
 			
 		} else if (action.equals(WebKeys.CHANGE_USER_STATUS)) {
 			
@@ -152,8 +157,50 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		super.serveResource(request, response);
 	}
 	
+	
 	/**
-	 * Sets the pop up visibility.
+	 * Get a list of all categories configured for use in the portlet.
+	 * 
+	 * @param request
+	 * @param themeDisplay
+	 * @return An array with all the categories ids
+	 */
+	private long[] getCategoryIds(RenderRequest request, ThemeDisplay themeDisplay) {
+	    long[] categoryIds = new long[0];
+	    try {
+	    categoryIds = 
+                TipOfTheDayUtil.retrieveCategories(
+                        request, themeDisplay, categoryIds);
+	    } catch(Exception e) {
+	        logger.error(e);
+	    }
+	    return categoryIds;
+	}
+	
+	/**
+	 * Get all the article ids to be display in the popup, filtering those already seen by the user.
+	 * 
+	 * @param request
+	 * @param categoryIds
+	 * @return An array with all the article ids
+	 */
+	private String[] getFilteredArticleIds(RenderRequest request, long[] categoryIds) {
+	    List<JournalArticle> articles = 
+                WebArticleHelperLocalServiceUtil
+                    .getJournalArticlesByCategoryIds(categoryIds);
+        
+        articles = filterVisitedArticles(request, articles);
+                
+        String[] articleIds = new String[articles.size()];
+
+        for (int i=0; i < articleIds.length; ++i) {
+            articleIds[i] = articles.get(i).getArticleId();
+        }
+        return articleIds;
+	}
+	
+	/**
+	 * Sets the pop up visibility based on the user's configuration and the number of articles.
 	 *
 	 * @param request the request
 	 * @param themeDisplay the theme display
@@ -161,28 +208,14 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	 */
 	private void setPopUpVisibility(RenderRequest request, 
 			ThemeDisplay themeDisplay, String userStatus) {
-		
 		try {
-			long[] categoryIds = new long[0];
+		    long[] categoryIds = getCategoryIds(request, themeDisplay);
+			boolean showTips = !Validator.isNull(categoryIds) && checkShowTips(themeDisplay, userStatus);
 			
-			boolean showTips;
-			
-			showTips = checkShowTips(
-					themeDisplay, userStatus);
-			categoryIds = 
-					TipOfTheDayUtil.retrieveCategories(
-							request, themeDisplay, categoryIds);
-			
-			if (categoryIds != null && categoryIds.length > 0) {
-				if(getInitialArticlesToDisplay(request, categoryIds)){
-					showTips = false;
-				}
-				
-			} else {
-				showTips = false;
-			}
-			
-			request.setAttribute(ATTR_SHOW_TIPS, showTips );
+			if(showTips) {
+			    showTips = getFilteredArticleIds(request, categoryIds).length > 0;
+			}			
+			request.setAttribute(ATTR_SHOW_TIPS, showTips);
 			
 		} catch (Exception e) {
 			logger.error("Error setting pop up visibility", e);
@@ -263,7 +296,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * Actions called from dockbar switch and pop up checkbox.
+	 * Action called from the dockbar checkbox to stop showing tips at login.
 	 *
 	 * @param stopShowing the stop showing
 	 * @param themeDisplay the theme display
@@ -277,7 +310,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 		
 		try {
 			if (stopShowing) {
-				TipsOfTheDayUsersLocalServiceUtil.setUser(companyId, groupId, 
+				TipsOfTheDayUsersLocalServiceUtil.setUserStatus(companyId, groupId, 
 						userId, String.valueOf(false));
 				
 			} else {
@@ -290,6 +323,28 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 			logger.error("Error changing Show Tips", e);
 		}
 	}
+	
+	
+	/**
+	 * Action called from the dockbar checkbox to hide tips already seen.
+	 * 
+	 * @param showOnlyNew
+	 * @param themeDisplay
+	 */
+	private void changeShowAll(
+            boolean showOnlyNew, ThemeDisplay themeDisplay) {
+        
+        long companyId = themeDisplay.getCompanyId();
+        long groupId = themeDisplay.getScopeGroupId();
+        long userId = themeDisplay.getUserId();
+        
+        try {
+            TipsOfTheDayUsersLocalServiceUtil.setUserShowAll(companyId, groupId, 
+                        userId, showOnlyNew);
+        } catch (Exception e) {
+            logger.error("Error changing Show Tips", e);
+        }
+    }
 	
 	/**
 	 * Sets the user visitance.
@@ -308,7 +363,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 						new GregorianCalendar(themeDisplay.getTimeZone());
 				
 					try {
-						TipsOfTheDayUsersLocalServiceUtil.setUser(
+						TipsOfTheDayUsersLocalServiceUtil.setUserStatus(
 								themeDisplay.getCompanyId(), 
 								themeDisplay.getScopeGroupId(),
 								themeDisplay.getUserId(), 
@@ -321,36 +376,51 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * Gets the initial articles to display.
-	 *
-	 * @param request the request
-	 * @param categoryIds the category ids
-	 * @return the initial articles to display
+	 * Removes tips already seen by the user if the option is enabled.
+	 * 
+	 * @param request
+	 * @param articles
+	 * @return The list of tips to display
 	 */
-	private boolean getInitialArticlesToDisplay(
-			RenderRequest request, long[] categoryIds) {
+	private List<JournalArticle> filterVisitedArticles(RenderRequest request, List<JournalArticle> articles) {
+	    
+	    if((Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS))
+	        return articles;
 
-		List<JournalArticle> articles = 
-				WebArticleHelperLocalServiceUtil
-					.getJournalArticlesByCategoryIds(categoryIds);
-		String[] articleIds = new String[articles.size()];
-
-		for (int i=0; i < articleIds.length; ++i) {
-			articleIds[i] = articles.get(i).getArticleId();
-		}
-		
-		request.setAttribute(WebKeys.ARTICLE_IDS, 
-				StringUtil.merge(articleIds));
-		
-		if (articleIds.length > 0) {
-			chooseRandomTip(request, articleIds, StringUtil.split(StringPool.BLANK), 
-					Arrays.asList(StringPool.BLANK), StringPool.BLANK);			
-		}
-		
-		if (logger.isDebugEnabled())
-			logger.debug("quantity of articles: "+articles.size());
-		
-		return articles.isEmpty();
+	    if(logger.isDebugEnabled())
+	        logger.debug("Filtering article ids");
+	    
+	    ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	    List<JournalArticle> filtered = new LinkedList<JournalArticle>();
+	    List<String> visitedIds = Arrays.asList(new String[]{});
+	    try {
+	        visitedIds = TipOfTheDayUtil.getVisitedTips(themeDisplay);
+	    } catch(SystemException e) {
+	        logger.error("Error getting visited ids", e);
+	    }
+	    for(JournalArticle article : articles) {
+	        if(!visitedIds.contains(article.getArticleId()))
+	            filtered.add(article);	            
+	    }
+	    return filtered;
+	}
+	
+	/**
+	 * Stores the given id as a visited tip.
+	 * 
+	 * @param request
+	 * @param articleId
+	 */
+	private void saveVisitedTip(RenderRequest request, String articleId) {
+	    
+	    if(logger.isDebugEnabled())
+	        logger.debug("Storing tip id as visited: " + articleId);
+	    
+	    try {
+            TipOfTheDayUtil.saveVisitedTip(request, articleId);
+        } catch (Exception e) {
+            logger.error("Error storing visited tip", e);
+        }
 	}
 	
 	/**
@@ -359,20 +429,34 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	 * @param request the new article to display
 	 */
 	private void setArticleToDisplay(RenderRequest request) {
-		
-		String articleIdsString = ParamUtil.getString(request, WebKeys.ARTICLE_IDS);
-		request.setAttribute(
-				WebKeys.ARTICLE_IDS, articleIdsString);
-		String[] articleIds = StringUtil.split(articleIdsString);
-		String articleId = ParamUtil.getString(request, WebKeys.ARTICLE_ID);
+	    
+	    String paramAtricleIds = ParamUtil.getString(request, WebKeys.ARTICLE_IDS);
+	    String[] articleIds = null;
+	    	    
+	    if(Validator.isNull(paramAtricleIds)) {
+	        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	        long[] categoryIds = getCategoryIds(request, themeDisplay);
+	        articleIds = getFilteredArticleIds(request, categoryIds);
+	        request.setAttribute(WebKeys.ARTICLE_IDS, StringUtil.merge(articleIds));
+	    } else {
+	        request.setAttribute(WebKeys.ARTICLE_IDS, paramAtricleIds);
+	        articleIds = StringUtil.split(paramAtricleIds);
+	    }
+	    
+	    String articleId = ParamUtil.getString(request, WebKeys.ARTICLE_ID);
+	    
+	    if(Validator.isNull(articleId) && articleIds.length > 0) {
+	        Random random = new Random();
+	        articleId = articleIds[random.nextInt(articleIds.length)];
+	    }
+	    
 		request.setAttribute(WebKeys.ARTICLE_ID, articleId);
 		request.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, getShowArticleTitle(PortalUtil.getCompanyId(request)));
 		
 		if (articleIds.length > 0) {
-			
+		    saveVisitedTip(request, articleId);
 			if (articleIds.length != 1) {
 				selectTip(request, articleIds, articleId);
-				
 			} else {
 				request.setAttribute(WebKeys.DISABLE_PREV, true);
 				request.setAttribute(WebKeys.DISABLE_NEXT, true);
@@ -386,8 +470,7 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * User Status is needed for taking the decision about showing the pop up,
-	 * and the checkbox status inside the pop up.
+	 * User Status is needed for taking the decision about showing the pop up.
 	 *
 	 * @param request the request
 	 * @param themeDisplay the theme display
@@ -413,6 +496,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 					userStatus = user.getStatus();
 					request.setAttribute(
 							WebKeys.USER_STATUS, userStatus);
+					request.setAttribute(
+					        WebKeys.SHOW_ALL_TIPS, user.getShowAll());
 				}
 			}
 			

@@ -81,7 +81,7 @@ public class WebArticleHelperLocalServiceImpl
 		List<JournalArticle> jaList = new ArrayList<JournalArticle>();
 		
 		AssetEntryQuery q = new AssetEntryQuery();
-		q.setAllCategoryIds(categoryIds);
+		q.setAnyCategoryIds(categoryIds);
 		q.setClassName(JournalArticle.class.getName());
 		
 		try {
