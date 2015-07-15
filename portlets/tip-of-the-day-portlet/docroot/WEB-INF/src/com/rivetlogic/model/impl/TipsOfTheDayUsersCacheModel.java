@@ -36,7 +36,7 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{tipUserId=");
 		sb.append(tipUserId);
@@ -48,6 +48,8 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 		sb.append(userId);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", showAll=");
+		sb.append(showAll);
 		sb.append("}");
 
 		return sb.toString();
@@ -69,6 +71,8 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 			tipsOfTheDayUsersImpl.setStatus(status);
 		}
 
+		tipsOfTheDayUsersImpl.setShowAll(showAll);
+
 		tipsOfTheDayUsersImpl.resetOriginalValues();
 
 		return tipsOfTheDayUsersImpl;
@@ -81,6 +85,7 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 		groupId = objectInput.readLong();
 		userId = objectInput.readLong();
 		status = objectInput.readUTF();
+		showAll = objectInput.readBoolean();
 	}
 
 	@Override
@@ -97,6 +102,8 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 		else {
 			objectOutput.writeUTF(status);
 		}
+
+		objectOutput.writeBoolean(showAll);
 	}
 
 	public long tipUserId;
@@ -104,4 +111,5 @@ public class TipsOfTheDayUsersCacheModel implements CacheModel<TipsOfTheDayUsers
 	public long groupId;
 	public long userId;
 	public String status;
+	public boolean showAll;
 }

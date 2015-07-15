@@ -24,7 +24,6 @@
 <%
 boolean disablePrev = GetterUtil.getBoolean(request.getAttribute("disablePrev"));
 boolean disableNext = GetterUtil.getBoolean(request.getAttribute("disableNext"));
-boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
 boolean showArticleTitle = GetterUtil.getBoolean(request.getAttribute(WebKeys.SHOW_ARTICLE_TITLE));
 %>
 
@@ -61,7 +60,6 @@ boolean showArticleTitle = GetterUtil.getBoolean(request.getAttribute(WebKeys.SH
         <aui:button name="previous" value='<%= LanguageUtil.get(pageContext, "tof-previous") %>' href="<%= previousURL %>" disabled="<%= disablePrev %>"/>
         <aui:button name="next" value='<%= LanguageUtil.get(pageContext, "tof-next") %>' href="<%= nextURL %>" disabled="<%= disableNext %>" />
         <aui:button name="done" value='<%= LanguageUtil.get(pageContext, "tof-done") %>' cssClass="tofd-close-pop-up"/>
-        <aui:input name="<%=WebKeys.STOP_SHOWING%>" label="tof-dont-show" type="checkbox" checked="<%= stopShowing %>" cssClass="ajax-checkbox-action" />
         <div class="clearfix"></div>
     </div>
     <div class="clearfix"></div>

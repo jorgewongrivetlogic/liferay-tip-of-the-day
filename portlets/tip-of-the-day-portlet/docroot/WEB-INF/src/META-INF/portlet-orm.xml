@@ -23,10 +23,24 @@
 			<basic name="groupId" />
 			<basic name="userId" />
 			<basic name="status" />
+			<basic name="showAll" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="tipUserUuid" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.rivetlogic.model.impl.TipsOfTheDayVisitedModelImpl">
+		<id-class class="com.rivetlogic.service.persistence.TipsOfTheDayVisitedPK" />
+		<attributes>
+			<id name="userId" />
+			<id name="companyId" />
+			<id name="groupId" />
+			<id name="tipId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
@@ -36,6 +50,10 @@
 	</entity>
 	<entity class="com.rivetlogic.model.impl.TipsOfTheDayUsersImpl" name="TipsOfTheDayUsers">
 		<table name="rivetlogic_tod_TipsOfTheDayUsers" />
+		<attributes />
+	</entity>
+	<entity class="com.rivetlogic.model.impl.TipsOfTheDayVisitedImpl" name="TipsOfTheDayVisited">
+		<table name="rivetlogic_tod_TipsOfTheDayVisited" />
 		<attributes />
 	</entity>
 </entity-mappings>

@@ -54,6 +54,7 @@ public class TipsOfTheDayUsersWrapper implements TipsOfTheDayUsers,
 		attributes.put("groupId", getGroupId());
 		attributes.put("userId", getUserId());
 		attributes.put("status", getStatus());
+		attributes.put("showAll", getShowAll());
 
 		return attributes;
 	}
@@ -88,6 +89,12 @@ public class TipsOfTheDayUsersWrapper implements TipsOfTheDayUsers,
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Boolean showAll = (Boolean)attributes.get("showAll");
+
+		if (showAll != null) {
+			setShowAll(showAll);
 		}
 	}
 
@@ -253,6 +260,36 @@ public class TipsOfTheDayUsersWrapper implements TipsOfTheDayUsers,
 	@Override
 	public void setStatus(java.lang.String status) {
 		_tipsOfTheDayUsers.setStatus(status);
+	}
+
+	/**
+	* Returns the show all of this Tips of the Day Users.
+	*
+	* @return the show all of this Tips of the Day Users
+	*/
+	@Override
+	public boolean getShowAll() {
+		return _tipsOfTheDayUsers.getShowAll();
+	}
+
+	/**
+	* Returns <code>true</code> if this Tips of the Day Users is show all.
+	*
+	* @return <code>true</code> if this Tips of the Day Users is show all; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isShowAll() {
+		return _tipsOfTheDayUsers.isShowAll();
+	}
+
+	/**
+	* Sets whether this Tips of the Day Users is show all.
+	*
+	* @param showAll the show all of this Tips of the Day Users
+	*/
+	@Override
+	public void setShowAll(boolean showAll) {
+		_tipsOfTheDayUsers.setShowAll(showAll);
 	}
 
 	@Override

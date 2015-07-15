@@ -116,19 +116,29 @@ public class TipsOfTheDayUsersLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "setUser";
+		_methodName19 = "setUserStatus";
 
 		_methodParameterTypes19 = new String[] {
 				"long", "long", "long", "java.lang.String"
 			};
 
-		_methodName20 = "getUser";
+		_methodName20 = "setUserShowAll";
 
-		_methodParameterTypes20 = new String[] { "long", "long", "long" };
+		_methodParameterTypes20 = new String[] {
+				"long", "long", "long", "java.lang.Boolean"
+			};
 
-		_methodName21 = "getUserStatus";
+		_methodName21 = "getUser";
 
 		_methodParameterTypes21 = new String[] { "long", "long", "long" };
+
+		_methodName22 = "getUserStatus";
+
+		_methodParameterTypes22 = new String[] { "long", "long", "long" };
+
+		_methodName23 = "getUserShowAll";
+
+		_methodParameterTypes23 = new String[] { "long", "long", "long" };
 	}
 
 	@Override
@@ -685,7 +695,7 @@ public class TipsOfTheDayUsersLocalServiceClp
 	}
 
 	@Override
-	public void setUser(long companyId, long groupId, long userId,
+	public void setUserStatus(long companyId, long groupId, long userId,
 		java.lang.String status)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -724,6 +734,45 @@ public class TipsOfTheDayUsersLocalServiceClp
 	}
 
 	@Override
+	public void setUserShowAll(long companyId, long groupId, long userId,
+		java.lang.Boolean showAll)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName20,
+				_methodParameterTypes20,
+				new Object[] {
+					companyId,
+					
+				groupId,
+					
+				userId,
+					
+				ClpSerializer.translateInput(showAll)
+				});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
 	public com.rivetlogic.model.TipsOfTheDayUsers getUser(long companyId,
 		long groupId, long userId)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -731,8 +780,8 @@ public class TipsOfTheDayUsersLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20,
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21,
 					new Object[] { companyId, groupId, userId });
 		}
 		catch (Throwable t) {
@@ -760,16 +809,22 @@ public class TipsOfTheDayUsersLocalServiceClp
 
 	@Override
 	public java.lang.String getUserStatus(long companyId, long groupId,
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
 					new Object[] { companyId, groupId, userId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
 
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
@@ -785,6 +840,40 @@ public class TipsOfTheDayUsersLocalServiceClp
 		}
 
 		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public boolean getUserShowAll(long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23,
+					new Object[] { companyId, groupId, userId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Boolean)returnObj).booleanValue();
 	}
 
 	private InvokableLocalService _invokableLocalService;
@@ -830,4 +919,8 @@ public class TipsOfTheDayUsersLocalServiceClp
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
+	private String _methodName23;
+	private String[] _methodParameterTypes23;
 }

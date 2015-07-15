@@ -35,6 +35,7 @@ public class TipsOfTheDayUsersSoap implements Serializable {
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setStatus(model.getStatus());
+		soapModel.setShowAll(model.getShowAll());
 
 		return soapModel;
 	}
@@ -130,9 +131,22 @@ public class TipsOfTheDayUsersSoap implements Serializable {
 		_status = status;
 	}
 
+	public boolean getShowAll() {
+		return _showAll;
+	}
+
+	public boolean isShowAll() {
+		return _showAll;
+	}
+
+	public void setShowAll(boolean showAll) {
+		_showAll = showAll;
+	}
+
 	private long _tipUserId;
 	private long _companyId;
 	private long _groupId;
 	private long _userId;
 	private String _status;
+	private boolean _showAll;
 }

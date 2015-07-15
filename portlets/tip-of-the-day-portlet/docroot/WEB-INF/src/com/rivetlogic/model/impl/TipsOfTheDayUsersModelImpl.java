@@ -69,9 +69,10 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 			{ "companyId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
-			{ "status", Types.VARCHAR }
+			{ "status", Types.VARCHAR },
+			{ "showAll", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_tod_TipsOfTheDayUsers (tipUserId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,status VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_tod_TipsOfTheDayUsers (tipUserId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,status VARCHAR(75) null,showAll BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_tod_TipsOfTheDayUsers";
 	public static final String ORDER_BY_JPQL = " ORDER BY tipsOfTheDayUsers.tipUserId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_tod_TipsOfTheDayUsers.tipUserId ASC";
@@ -110,6 +111,7 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 		model.setGroupId(soapModel.getGroupId());
 		model.setUserId(soapModel.getUserId());
 		model.setStatus(soapModel.getStatus());
+		model.setShowAll(soapModel.getShowAll());
 
 		return model;
 	}
@@ -180,6 +182,7 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 		attributes.put("groupId", getGroupId());
 		attributes.put("userId", getUserId());
 		attributes.put("status", getStatus());
+		attributes.put("showAll", getShowAll());
 
 		return attributes;
 	}
@@ -214,6 +217,12 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Boolean showAll = (Boolean)attributes.get("showAll");
+
+		if (showAll != null) {
+			setShowAll(showAll);
 		}
 	}
 
@@ -333,6 +342,22 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 		_status = status;
 	}
 
+	@JSON
+	@Override
+	public boolean getShowAll() {
+		return _showAll;
+	}
+
+	@Override
+	public boolean isShowAll() {
+		return _showAll;
+	}
+
+	@Override
+	public void setShowAll(boolean showAll) {
+		_showAll = showAll;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -369,6 +394,7 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 		tipsOfTheDayUsersImpl.setGroupId(getGroupId());
 		tipsOfTheDayUsersImpl.setUserId(getUserId());
 		tipsOfTheDayUsersImpl.setStatus(getStatus());
+		tipsOfTheDayUsersImpl.setShowAll(getShowAll());
 
 		tipsOfTheDayUsersImpl.resetOriginalValues();
 
@@ -456,12 +482,14 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 			tipsOfTheDayUsersCacheModel.status = null;
 		}
 
+		tipsOfTheDayUsersCacheModel.showAll = getShowAll();
+
 		return tipsOfTheDayUsersCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{tipUserId=");
 		sb.append(getTipUserId());
@@ -473,6 +501,8 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 		sb.append(getUserId());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", showAll=");
+		sb.append(getShowAll());
 		sb.append("}");
 
 		return sb.toString();
@@ -480,7 +510,7 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.model.TipsOfTheDayUsers");
@@ -506,6 +536,10 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>showAll</column-name><column-value><![CDATA[");
+		sb.append(getShowAll());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -529,6 +563,7 @@ public class TipsOfTheDayUsersModelImpl extends BaseModelImpl<TipsOfTheDayUsers>
 	private long _originalUserId;
 	private boolean _setOriginalUserId;
 	private String _status;
+	private boolean _showAll;
 	private long _columnBitmask;
 	private TipsOfTheDayUsers _escapedModel;
 }

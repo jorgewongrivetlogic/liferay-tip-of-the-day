@@ -23,6 +23,7 @@
 
 <%
 boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
+boolean showAllTips = (Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS);
 %>
 
 <li id="<portlet:namespace/>tip-of-the-day-menu" class="tip-of-the-day-help dropdown dockbar-item" role="presentation"> 
@@ -35,9 +36,17 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SH
 				<span class="nav-item-label"><liferay-ui:message key="tof-display"/></span>
 			</a>  
 		</li>
-		<li class="nav-item-label switch-btn"> 
-			<a href="#" class="switch-off-on <%= stopShowing ? "off" : "on"%>">
-				<span><%= stopShowing ? "off" : "on"%></span>
+
+		<li class="nav-item-label tof-checkbox-label">
+			<a href="javascript:;" class="tof-checkbox-a"> 
+				<span class="pull-left"><liferay-ui:message key="tof-show-tips"/></span>
+				<input id="tof-checkbox-show" class="tof-checkbox pull-right" type="checkbox" <c:if test="${!stopShowing}"> checked </c:if> />
+			</a>
+		</li>
+		<li class="nav-item-label tof-checkbox-label">
+			<a href="javascript:;" class="tof-checkbox-a">
+				<span class="pull-left"><liferay-ui:message key="tof-show-only-new"/></span>
+				<input id="tof-checkbox-only-new" class="tof-checkbox pull-right" type="checkbox" <c:if test="${!showAllTips}"> checked </c:if> />
 			</a>
 		</li>
 	</ul>
@@ -45,7 +54,6 @@ boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SH
 
 <portlet:renderURL var="contentURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
 	<portlet:param name="<%=WebKeys.MVC_PATH%>" value="<%=TipOfTheDayDockbarPortlet.CONTENT_VIEW%>"/>
-	<portlet:param name="<%=WebKeys.ARTICLE_IDS%>" value="${articleIds}"/>
 	<portlet:param name="<%=WebKeys.ARTICLE_ID%>" value="${nextArticleId}"/>
 </portlet:renderURL>
 

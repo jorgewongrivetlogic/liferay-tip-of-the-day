@@ -668,6 +668,7 @@ public class TipsOfTheDayUsersPersistenceImpl extends BasePersistenceImpl<TipsOf
 		tipsOfTheDayUsersImpl.setGroupId(tipsOfTheDayUsers.getGroupId());
 		tipsOfTheDayUsersImpl.setUserId(tipsOfTheDayUsers.getUserId());
 		tipsOfTheDayUsersImpl.setStatus(tipsOfTheDayUsers.getStatus());
+		tipsOfTheDayUsersImpl.setShowAll(tipsOfTheDayUsers.isShowAll());
 
 		return tipsOfTheDayUsersImpl;
 	}

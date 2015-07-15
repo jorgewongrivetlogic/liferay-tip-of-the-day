@@ -7,6 +7,9 @@
 	<bean id="com.rivetlogic.service.TipsOfTheDayUsersLocalService" class="com.rivetlogic.service.impl.TipsOfTheDayUsersLocalServiceImpl" />
 	<bean id="com.rivetlogic.service.TipsOfTheDayUsersService" class="com.rivetlogic.service.impl.TipsOfTheDayUsersServiceImpl" />
 	<bean id="com.rivetlogic.service.persistence.TipsOfTheDayUsersPersistence" class="com.rivetlogic.service.persistence.TipsOfTheDayUsersPersistenceImpl" parent="basePersistence" />
+	<bean id="com.rivetlogic.service.TipsOfTheDayVisitedLocalService" class="com.rivetlogic.service.impl.TipsOfTheDayVisitedLocalServiceImpl" />
+	<bean id="com.rivetlogic.service.TipsOfTheDayVisitedService" class="com.rivetlogic.service.impl.TipsOfTheDayVisitedServiceImpl" />
+	<bean id="com.rivetlogic.service.persistence.TipsOfTheDayVisitedPersistence" class="com.rivetlogic.service.persistence.TipsOfTheDayVisitedPersistenceImpl" parent="basePersistence" />
 	<bean id="com.rivetlogic.service.WebArticleHelperLocalService" class="com.rivetlogic.service.impl.WebArticleHelperLocalServiceImpl" />
 	<bean id="com.rivetlogic.service.WebArticleHelperService" class="com.rivetlogic.service.impl.WebArticleHelperServiceImpl" />
 </beans>

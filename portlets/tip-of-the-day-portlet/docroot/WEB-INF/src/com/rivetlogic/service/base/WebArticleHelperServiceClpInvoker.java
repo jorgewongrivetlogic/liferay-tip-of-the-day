@@ -24,24 +24,24 @@ import java.util.Arrays;
  */
 public class WebArticleHelperServiceClpInvoker {
 	public WebArticleHelperServiceClpInvoker() {
-		_methodName28 = "getBeanIdentifier";
+		_methodName34 = "getBeanIdentifier";
 
-		_methodParameterTypes28 = new String[] {  };
+		_methodParameterTypes34 = new String[] {  };
 
-		_methodName29 = "setBeanIdentifier";
+		_methodName35 = "setBeanIdentifier";
 
-		_methodParameterTypes29 = new String[] { "java.lang.String" };
+		_methodParameterTypes35 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
-		if (_methodName28.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes28, parameterTypes)) {
+		if (_methodName34.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes34, parameterTypes)) {
 			return WebArticleHelperServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName29.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes29, parameterTypes)) {
+		if (_methodName35.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes35, parameterTypes)) {
 			WebArticleHelperServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
@@ -50,8 +50,8 @@ public class WebArticleHelperServiceClpInvoker {
 		throw new UnsupportedOperationException();
 	}
 
-	private String _methodName28;
-	private String[] _methodParameterTypes28;
-	private String _methodName29;
-	private String[] _methodParameterTypes29;
+	private String _methodName34;
+	private String[] _methodParameterTypes34;
+	private String _methodName35;
+	private String[] _methodParameterTypes35;
 }

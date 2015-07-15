@@ -106,17 +106,17 @@ public class TipsOfTheDayCategoriesLocalServiceClpInvoker {
 				"com.rivetlogic.model.TipsOfTheDayCategories"
 			};
 
-		_methodName44 = "getBeanIdentifier";
+		_methodName50 = "getBeanIdentifier";
 
-		_methodParameterTypes44 = new String[] {  };
+		_methodParameterTypes50 = new String[] {  };
 
-		_methodName45 = "setBeanIdentifier";
+		_methodName51 = "setBeanIdentifier";
 
-		_methodParameterTypes45 = new String[] { "java.lang.String" };
+		_methodParameterTypes51 = new String[] { "java.lang.String" };
 
-		_methodName50 = "getCategories";
+		_methodName56 = "getCategories";
 
-		_methodParameterTypes50 = new String[] { "long" };
+		_methodParameterTypes56 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -208,20 +208,20 @@ public class TipsOfTheDayCategoriesLocalServiceClpInvoker {
 			return TipsOfTheDayCategoriesLocalServiceUtil.updateTipsOfTheDayCategories((com.rivetlogic.model.TipsOfTheDayCategories)arguments[0]);
 		}
 
-		if (_methodName44.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes44, parameterTypes)) {
+		if (_methodName50.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
 			return TipsOfTheDayCategoriesLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName45.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes45, parameterTypes)) {
+		if (_methodName51.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			TipsOfTheDayCategoriesLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName50.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
 			return TipsOfTheDayCategoriesLocalServiceUtil.getCategories(((Long)arguments[0]).longValue());
 		}
 
@@ -260,10 +260,10 @@ public class TipsOfTheDayCategoriesLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName44;
-	private String[] _methodParameterTypes44;
-	private String _methodName45;
-	private String[] _methodParameterTypes45;
 	private String _methodName50;
 	private String[] _methodParameterTypes50;
+	private String _methodName51;
+	private String[] _methodParameterTypes51;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
 }

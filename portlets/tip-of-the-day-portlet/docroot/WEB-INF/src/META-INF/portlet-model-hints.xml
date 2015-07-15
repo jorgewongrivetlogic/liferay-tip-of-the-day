@@ -11,5 +11,12 @@
 		<field name="groupId" type="long" />
 		<field name="userId" type="long" />
 		<field name="status" type="String" />
+		<field name="showAll" type="boolean" />
+	</model>
+	<model name="com.rivetlogic.model.TipsOfTheDayVisited">
+		<field name="userId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="tipId" type="String" />
 	</model>
 </model-hints>

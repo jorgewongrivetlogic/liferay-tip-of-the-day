@@ -79,6 +79,7 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 		attributes.put("groupId", getGroupId());
 		attributes.put("userId", getUserId());
 		attributes.put("status", getStatus());
+		attributes.put("showAll", getShowAll());
 
 		return attributes;
 	}
@@ -113,6 +114,12 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Boolean showAll = (Boolean)attributes.get("showAll");
+
+		if (showAll != null) {
+			setShowAll(showAll);
 		}
 	}
 
@@ -251,6 +258,34 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 		}
 	}
 
+	@Override
+	public boolean getShowAll() {
+		return _showAll;
+	}
+
+	@Override
+	public boolean isShowAll() {
+		return _showAll;
+	}
+
+	@Override
+	public void setShowAll(boolean showAll) {
+		_showAll = showAll;
+
+		if (_tipsOfTheDayUsersRemoteModel != null) {
+			try {
+				Class<?> clazz = _tipsOfTheDayUsersRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setShowAll", boolean.class);
+
+				method.invoke(_tipsOfTheDayUsersRemoteModel, showAll);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getTipsOfTheDayUsersRemoteModel() {
 		return _tipsOfTheDayUsersRemoteModel;
 	}
@@ -327,6 +362,7 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 		clone.setGroupId(getGroupId());
 		clone.setUserId(getUserId());
 		clone.setStatus(getStatus());
+		clone.setShowAll(getShowAll());
 
 		return clone;
 	}
@@ -368,6 +404,10 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 		}
 	}
 
+	public Class<?> getClpSerializerClass() {
+		return _clpSerializerClass;
+	}
+
 	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
@@ -375,7 +415,7 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{tipUserId=");
 		sb.append(getTipUserId());
@@ -387,6 +427,8 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 		sb.append(getUserId());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", showAll=");
+		sb.append(getShowAll());
 		sb.append("}");
 
 		return sb.toString();
@@ -394,7 +436,7 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.model.TipsOfTheDayUsers");
@@ -420,6 +462,10 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>showAll</column-name><column-value><![CDATA[");
+		sb.append(getShowAll());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -433,5 +479,7 @@ public class TipsOfTheDayUsersClp extends BaseModelImpl<TipsOfTheDayUsers>
 	private long _userId;
 	private String _userUuid;
 	private String _status;
+	private boolean _showAll;
 	private BaseModel<?> _tipsOfTheDayUsersRemoteModel;
+	private Class<?> _clpSerializerClass = com.rivetlogic.service.ClpSerializer.class;
 }

@@ -290,12 +290,21 @@ public class TipsOfTheDayUsersLocalServiceWrapper
 	}
 
 	@Override
-	public void setUser(long companyId, long groupId, long userId,
+	public void setUserStatus(long companyId, long groupId, long userId,
 		java.lang.String status)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		_tipsOfTheDayUsersLocalService.setUser(companyId, groupId, userId,
-			status);
+		_tipsOfTheDayUsersLocalService.setUserStatus(companyId, groupId,
+			userId, status);
+	}
+
+	@Override
+	public void setUserShowAll(long companyId, long groupId, long userId,
+		java.lang.Boolean showAll)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_tipsOfTheDayUsersLocalService.setUserShowAll(companyId, groupId,
+			userId, showAll);
 	}
 
 	@Override
@@ -308,9 +317,19 @@ public class TipsOfTheDayUsersLocalServiceWrapper
 
 	@Override
 	public java.lang.String getUserStatus(long companyId, long groupId,
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return _tipsOfTheDayUsersLocalService.getUserStatus(companyId, groupId,
 			userId);
+	}
+
+	@Override
+	public boolean getUserShowAll(long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _tipsOfTheDayUsersLocalService.getUserShowAll(companyId,
+			groupId, userId);
 	}
 
 	/**

@@ -46,30 +46,19 @@ public class TipsOfTheDayUsersLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.rivetlogic.service.TipsOfTheDayUsersLocalServiceUtil} to access the Tips of the Day Users local service.
 	 */
-	
-	public void setUser(long companyId, long groupId, long userId, String status) 
-			throws SystemException, PortalException {
 
-		TipsOfTheDayUsers user = 
-				tipsOfTheDayUsersPersistence
-					.fetchByC_G_U(companyId, groupId, userId);
-		
-		if (Validator.isNotNull(user)) {
-			user.setStatus(status);
-			
-		} else {
-			user = tipsOfTheDayUsersPersistence.create(
-					counterLocalService.increment(
-							TipsOfTheDayUsers.class.getName()));
-			
-			user.setCompanyId(companyId);
-			user.setGroupId(groupId);
-			user.setUserId(userId);
-			user.setStatus(status);
-			user.setNew(true);
-		}
-		
+	public void setUserStatus(long companyId, long groupId, long userId, String status) 
+			throws SystemException, PortalException {
+		TipsOfTheDayUsers user = getUser(companyId, groupId, userId);
+		user.setStatus(status);
 		tipsOfTheDayUsersPersistence.update(user);
+	}
+	
+	public void setUserShowAll(long companyId, long groupId, long userId, Boolean showAll)
+	        throws SystemException, PortalException {
+	    TipsOfTheDayUsers user = getUser(companyId, groupId, userId);
+	    user.setShowAll(showAll);
+	    tipsOfTheDayUsersPersistence.update(user);
 	}
 	
 	public TipsOfTheDayUsers getUser(long companyId, long groupId, long userId) 
@@ -90,6 +79,7 @@ public class TipsOfTheDayUsersLocalServiceImpl
 			user.setGroupId(groupId);
 			user.setUserId(userId);
 			user.setStatus(status);
+			user.setShowAll(WebKeys.SHOW_ALL_DEFAULT);
 			user.setNew(true);
 		}
 		
@@ -97,19 +87,15 @@ public class TipsOfTheDayUsersLocalServiceImpl
 	}
 	
 	public String getUserStatus(long companyId, long groupId, long userId) 
-			throws SystemException {
-		
-		String status = String.valueOf(WebKeys.STATUS_RECEIVE);
-		
-		TipsOfTheDayUsers user = 
-				tipsOfTheDayUsersPersistence.fetchByC_G_U(
-						companyId, groupId, userId);
-		
-		if (Validator.isNotNull(user)) {
-			status = user.getStatus();
-		}
-		
-		return status;
+			throws SystemException, PortalException  {
+	    TipsOfTheDayUsers user = getUser(companyId, groupId, userId);
+        return user.getStatus();
+	}
+	
+	public boolean getUserShowAll(long companyId, long groupId, long userId)
+	        throws SystemException, PortalException {
+	    TipsOfTheDayUsers user = getUser(companyId, groupId, userId);
+	    return user.getShowAll();
 	}
 	
 }

@@ -22,6 +22,8 @@ import com.rivetlogic.service.TipsOfTheDayCategoriesLocalServiceUtil;
 import com.rivetlogic.service.TipsOfTheDayCategoriesServiceUtil;
 import com.rivetlogic.service.TipsOfTheDayUsersLocalServiceUtil;
 import com.rivetlogic.service.TipsOfTheDayUsersServiceUtil;
+import com.rivetlogic.service.TipsOfTheDayVisitedLocalServiceUtil;
+import com.rivetlogic.service.TipsOfTheDayVisitedServiceUtil;
 import com.rivetlogic.service.WebArticleHelperLocalServiceUtil;
 import com.rivetlogic.service.WebArticleHelperServiceUtil;
 
@@ -46,6 +48,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			TipsOfTheDayUsersLocalServiceUtil.clearService();
 
 			TipsOfTheDayUsersServiceUtil.clearService();
+			TipsOfTheDayVisitedLocalServiceUtil.clearService();
+
+			TipsOfTheDayVisitedServiceUtil.clearService();
 			WebArticleHelperLocalServiceUtil.clearService();
 
 			WebArticleHelperServiceUtil.clearService();

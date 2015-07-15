@@ -36,6 +36,7 @@ import com.rivetlogic.model.TipsOfTheDayCategories;
 import com.rivetlogic.service.TipsOfTheDayCategoriesLocalService;
 import com.rivetlogic.service.persistence.TipsOfTheDayCategoriesPersistence;
 import com.rivetlogic.service.persistence.TipsOfTheDayUsersPersistence;
+import com.rivetlogic.service.persistence.TipsOfTheDayVisitedPersistence;
 
 import java.io.Serializable;
 
@@ -400,6 +401,63 @@ public abstract class TipsOfTheDayCategoriesLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the Tips of the Day Visited local service.
+	 *
+	 * @return the Tips of the Day Visited local service
+	 */
+	public com.rivetlogic.service.TipsOfTheDayVisitedLocalService getTipsOfTheDayVisitedLocalService() {
+		return tipsOfTheDayVisitedLocalService;
+	}
+
+	/**
+	 * Sets the Tips of the Day Visited local service.
+	 *
+	 * @param tipsOfTheDayVisitedLocalService the Tips of the Day Visited local service
+	 */
+	public void setTipsOfTheDayVisitedLocalService(
+		com.rivetlogic.service.TipsOfTheDayVisitedLocalService tipsOfTheDayVisitedLocalService) {
+		this.tipsOfTheDayVisitedLocalService = tipsOfTheDayVisitedLocalService;
+	}
+
+	/**
+	 * Returns the Tips of the Day Visited remote service.
+	 *
+	 * @return the Tips of the Day Visited remote service
+	 */
+	public com.rivetlogic.service.TipsOfTheDayVisitedService getTipsOfTheDayVisitedService() {
+		return tipsOfTheDayVisitedService;
+	}
+
+	/**
+	 * Sets the Tips of the Day Visited remote service.
+	 *
+	 * @param tipsOfTheDayVisitedService the Tips of the Day Visited remote service
+	 */
+	public void setTipsOfTheDayVisitedService(
+		com.rivetlogic.service.TipsOfTheDayVisitedService tipsOfTheDayVisitedService) {
+		this.tipsOfTheDayVisitedService = tipsOfTheDayVisitedService;
+	}
+
+	/**
+	 * Returns the Tips of the Day Visited persistence.
+	 *
+	 * @return the Tips of the Day Visited persistence
+	 */
+	public TipsOfTheDayVisitedPersistence getTipsOfTheDayVisitedPersistence() {
+		return tipsOfTheDayVisitedPersistence;
+	}
+
+	/**
+	 * Sets the Tips of the Day Visited persistence.
+	 *
+	 * @param tipsOfTheDayVisitedPersistence the Tips of the Day Visited persistence
+	 */
+	public void setTipsOfTheDayVisitedPersistence(
+		TipsOfTheDayVisitedPersistence tipsOfTheDayVisitedPersistence) {
+		this.tipsOfTheDayVisitedPersistence = tipsOfTheDayVisitedPersistence;
+	}
+
+	/**
 	 * Returns the Web Article helper local service.
 	 *
 	 * @return the Web Article helper local service
@@ -625,6 +683,12 @@ public abstract class TipsOfTheDayCategoriesLocalServiceBaseImpl
 	protected com.rivetlogic.service.TipsOfTheDayUsersService tipsOfTheDayUsersService;
 	@BeanReference(type = TipsOfTheDayUsersPersistence.class)
 	protected TipsOfTheDayUsersPersistence tipsOfTheDayUsersPersistence;
+	@BeanReference(type = com.rivetlogic.service.TipsOfTheDayVisitedLocalService.class)
+	protected com.rivetlogic.service.TipsOfTheDayVisitedLocalService tipsOfTheDayVisitedLocalService;
+	@BeanReference(type = com.rivetlogic.service.TipsOfTheDayVisitedService.class)
+	protected com.rivetlogic.service.TipsOfTheDayVisitedService tipsOfTheDayVisitedService;
+	@BeanReference(type = TipsOfTheDayVisitedPersistence.class)
+	protected TipsOfTheDayVisitedPersistence tipsOfTheDayVisitedPersistence;
 	@BeanReference(type = com.rivetlogic.service.WebArticleHelperLocalService.class)
 	protected com.rivetlogic.service.WebArticleHelperLocalService webArticleHelperLocalService;
 	@BeanReference(type = com.rivetlogic.service.WebArticleHelperService.class)
