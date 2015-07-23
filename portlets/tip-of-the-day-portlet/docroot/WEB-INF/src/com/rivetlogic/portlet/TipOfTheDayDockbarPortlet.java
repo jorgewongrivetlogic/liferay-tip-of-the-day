@@ -431,8 +431,8 @@ public class TipOfTheDayDockbarPortlet extends MVCPortlet {
 	private void setArticleToDisplay(RenderRequest request) {
 	    
 	    String paramAtricleIds = ParamUtil.getString(request, WebKeys.ARTICLE_IDS);
-	    String[] articleIds = null;
-	    	    
+	    String[] articleIds = new String[0];
+	    
 	    if(Validator.isNull(paramAtricleIds)) {
 	        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	        long[] categoryIds = getCategoryIds(request, themeDisplay);

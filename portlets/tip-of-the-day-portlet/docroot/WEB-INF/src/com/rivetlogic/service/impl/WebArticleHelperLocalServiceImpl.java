@@ -80,23 +80,24 @@ public class WebArticleHelperLocalServiceImpl
 		
 		List<JournalArticle> jaList = new ArrayList<JournalArticle>();
 		
-		AssetEntryQuery q = new AssetEntryQuery();
-		q.setAnyCategoryIds(categoryIds);
-		q.setClassName(JournalArticle.class.getName());
+		if(categoryIds.length > 0) {
 		
-		try {
-			List<AssetEntry> assets = AssetEntryFinderUtil.findEntries(q);
-			for (AssetEntry asset:assets) {
-				JournalArticle ja = 
-						JournalArticleLocalServiceUtil
-							.getLatestArticle(asset.getClassPK());
-				jaList.add(ja);
-			}
-			
-		} catch (Exception e) {
-			_log.error(e);
+    		AssetEntryQuery q = new AssetEntryQuery();
+    		q.setAnyCategoryIds(categoryIds);
+    		q.setClassName(JournalArticle.class.getName());
+    		
+    		try {
+    			List<AssetEntry> assets = AssetEntryFinderUtil.findEntries(q);
+    			for (AssetEntry asset:assets) {
+    				JournalArticle ja = 
+    						JournalArticleLocalServiceUtil
+    							.getLatestArticle(asset.getClassPK());
+    				jaList.add(ja);
+    			}
+    		} catch (Exception e) {
+    			_log.error(e);
+    		}
 		}
-		
 		return jaList;
 	}
 	

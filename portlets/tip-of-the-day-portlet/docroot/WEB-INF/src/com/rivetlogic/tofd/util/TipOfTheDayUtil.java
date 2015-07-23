@@ -70,10 +70,10 @@ public class TipOfTheDayUtil {
 						tipsCategories.getPrimaryKey());
 			}
 		} catch (NoSuchTipsOfTheDayCategoriesException e) {
-			categoryIds = null;
+			categoryIds = new long[0];
 		}
 		
-		if (categoryIds != null ) {
+		if (categoryIds.length > 0 ) {
 			String selectedCategories = StringUtil.merge(categoryIds);
 			
 			request.setAttribute(WebKeys.CUR_CATEGORY_IDS, selectedCategories);
