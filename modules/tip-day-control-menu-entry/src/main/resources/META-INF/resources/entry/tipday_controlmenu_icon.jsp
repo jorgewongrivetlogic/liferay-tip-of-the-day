@@ -16,4 +16,7 @@
 		id="<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayToggleId">
 		<aui:icon cssClass="icon-monospaced" image="wiki" markupView="lexicon" />
 	</a>
+	<div class="hidden">
+		<liferay-portlet:runtime portletName="TipDayArticlesRenderer" />
+	</div>
 </li>

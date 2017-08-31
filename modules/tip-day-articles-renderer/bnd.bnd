@@ -1,0 +1,4 @@
+Bundle-Name: tip-day-articles-renderer
+Bundle-SymbolicName: com.rivetlogic.tipday.articles.renderer
+Bundle-Version: 1.0.0
+Export-Package: com.rivetlogic.tipday.articles.renderer.constants
