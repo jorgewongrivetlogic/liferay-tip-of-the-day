@@ -1,0 +1,4 @@
+Bundle-Name: tip-day-panel
+Bundle-SymbolicName: com.rivetlogic.tipday.panel
+Bundle-Version: 1.0.0
+Export-Package: com.rivetlogic.tipday.panel.constants
