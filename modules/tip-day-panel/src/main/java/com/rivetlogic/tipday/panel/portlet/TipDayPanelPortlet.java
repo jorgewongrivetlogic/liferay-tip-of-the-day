@@ -2,11 +2,25 @@ package com.rivetlogic.tipday.panel.portlet;
 
 import com.rivetlogic.tipday.panel.constants.TipDayPanelPortletKeys;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import java.io.IOException;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ValidatorException;
 
 import org.osgi.service.component.annotations.Component;
+
+import com.rivetlogic.tipday.api.constants.WebKeys;
 
 /**
  * @author alejandrosoto
@@ -33,4 +47,58 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class TipDayPanelPortlet extends MVCPortlet {
+	
+	/* (non-Javadoc)
+	 * @see com.liferay.util.bridges.mvc.MVCPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+	 */
+	@Override
+	public void doView(RenderRequest request,RenderResponse response) 
+			throws IOException, PortletException {
+	
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletPreferences preferences = request.getPreferences();
+		
+		try {
+			long[] categoryIds = new long[0];
+//			TipOfTheDayUtil.retrieveCategories(
+//					request, themeDisplay, categoryIds);
+			request.setAttribute(WebKeys.TIPS_EACH_LOGIN_CHECKED, preferences.getValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, WebKeys.TIPS_EACH_LOGIN_DEFAULT));
+			request.setAttribute(WebKeys.TIPS_INTERVAL_VALUE, preferences.getValue(WebKeys.TIPS_INTERVAL_VALUE, WebKeys.TIPS_INTERVAL_DEFAULT));
+			request.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, preferences.getValue(WebKeys.SHOW_ARTICLE_TITLE, WebKeys.SHOW_ARTICLE_TITLE_DEFAULT));
+			
+		} catch (Exception e) {
+//			logger.error("Error retrieving categories", e);
+		}
+
+		super.doView(request, response);
+	}
+	
+	/**
+	 * TipDay panel form action
+	 * Persists control panel preferences
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ReadOnlyException
+	 * @throws ValidatorException
+	 * @throws IOException
+	 */
+	public void savePreferences(ActionRequest request, ActionResponse response) throws ReadOnlyException, ValidatorException, IOException {
+		System.out.println("calling saving preferences");
+		ThemeDisplay themeDisplay =  (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletPreferences preferences = request.getPreferences();
+		
+		String categoryIds =  ParamUtil.getString(request, WebKeys.ASSET_CATEGORY_IDS);
+		long resourcePrimKey = ParamUtil.getLong(request, WebKeys.TIPS_CATEGORIES_ID);
+		Integer interval = ParamUtil.getInteger(request, WebKeys.TIPS_INTERVAL_VALUE);
+		String oftenRadio = ParamUtil.getString(request, WebKeys.TIPS_OFTEN_RADIO);
+		Boolean eachLogin = WebKeys.TIPS_EACH_LOGIN.equals(oftenRadio); 
+		Boolean showArticleTitle = ParamUtil.getBoolean(request, WebKeys.SHOW_ARTICLE_TITLE);
+		
+		preferences.setValue(WebKeys.TIPS_INTERVAL_VALUE, interval.toString());
+		preferences.setValue(WebKeys.TIPS_EACH_LOGIN_CHECKED, eachLogin.toString());		
+		preferences.setValue(WebKeys.SHOW_ARTICLE_TITLE, showArticleTitle.toString());
+		preferences.store();
+	}
+
 }
