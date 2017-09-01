@@ -12,8 +12,8 @@
 			</h2>
             <!-- categories selection -->
 			<aui:field-wrapper name="categoriesIds" label="Select the categories of the webcontent to display">
-				<aui:input name="<%=WebKeys.TIPS_CATEGORIES_ID%>" value="" type="hidden" />
-				<liferay-ui:asset-categories-selector curCategoryIds="" />
+				<aui:input name="<%=WebKeys.TIPS_CATEGORIES_ID%>" value="${tipsCategoriesId}" type="hidden"/>
+				<liferay-ui:asset-categories-selector curCategoryIds="${curCategoryIds}" />
 			</aui:field-wrapper>
 
             <!-- config how often tips are displayed -->
