@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.rivetlogic.services.model.TipsOfTheDayCategories" />
+	<import class="com.rivetlogic.services.model.TipsOfTheDayUsers" />
+	<import class="com.rivetlogic.services.model.TipsOfTheDayVisited" />
+	<class name="com.rivetlogic.services.model.impl.TipsOfTheDayCategoriesImpl" table="rivetlogic_tipday_TipsOfTheDayCategories">
+		<id name="groupId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="categories" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.rivetlogic.services.model.impl.TipsOfTheDayUsersImpl" table="rivetlogic_tipday_TipsOfTheDayUsers">
+		<id name="tipUserId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="showAll" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.rivetlogic.services.model.impl.TipsOfTheDayVisitedImpl" table="rivetlogic_tipday_TipsOfTheDayVisited">
+		<composite-id class="com.rivetlogic.services.service.persistence.TipsOfTheDayVisitedPK" name="primaryKey">
+			<key-property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="tipId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayCategoriesLocalServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayCategoriesLocalService" />
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayCategoriesServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayCategoriesService" />
+	<bean class="com.rivetlogic.services.service.persistence.impl.TipsOfTheDayCategoriesPersistenceImpl" id="com.rivetlogic.services.service.persistence.TipsOfTheDayCategoriesPersistence" parent="basePersistence" />
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayUsersLocalServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayUsersLocalService" />
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayUsersServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayUsersService" />
+	<bean class="com.rivetlogic.services.service.persistence.impl.TipsOfTheDayUsersPersistenceImpl" id="com.rivetlogic.services.service.persistence.TipsOfTheDayUsersPersistence" parent="basePersistence" />
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayVisitedLocalServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayVisitedLocalService" />
+	<bean class="com.rivetlogic.services.service.impl.TipsOfTheDayVisitedServiceImpl" id="com.rivetlogic.services.service.TipsOfTheDayVisitedService" />
+	<bean class="com.rivetlogic.services.service.persistence.impl.TipsOfTheDayVisitedPersistenceImpl" id="com.rivetlogic.services.service.persistence.TipsOfTheDayVisitedPersistence" parent="basePersistence" />
+</beans>
