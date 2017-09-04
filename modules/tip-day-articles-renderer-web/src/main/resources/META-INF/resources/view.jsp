@@ -19,8 +19,7 @@
 	<c:otherwise>
 		<c:choose>
 			<c:when test="${not empty article}">
-				<liferay-ui:asset-display className="<%= JournalArticle.class.getName() %>" classPK="31431"></liferay-ui:asset-display>
-				<!-- template = resource prim key -->
+				<liferay-ui:asset-display className="<%= JournalArticle.class.getName() %>" classPK="${article.getResourcePrimKey()}"></liferay-ui:asset-display>
 			</c:when>
 			<c:otherwise>
 				<div class="portlet-msg-info">

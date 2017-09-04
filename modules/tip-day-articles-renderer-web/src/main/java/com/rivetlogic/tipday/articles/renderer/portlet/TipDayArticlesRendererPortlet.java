@@ -6,6 +6,8 @@ import com.rivetlogic.tipday.api.utils.TipOfTheDayUtil;
 
 import java.io.IOException;
 
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -31,6 +33,8 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.display-name=tip-day-articles-renderer Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
+		"com.liferay.portlet.header-portal-javascript=/o/tipoftheday-web/js/tipday-modal.js",
+		"com.liferay.portlet.header-portal-javascript=/o/tipoftheday-web/js/tipday-menu.js",
 		"javax.portlet.name=" + TipDayArticlesRendererPortletKeys.TipDayArticlesRenderer,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
@@ -52,11 +56,7 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		
 		// Render article by id
 		if (mode.equals("renderArticle")) {
-			String articleId = ParamUtil.getString(renderRequest, "articleId");
-			logger.debug("Rendering article " + articleId);
-			// saveVisitedTip(request, articleId);
-			renderRequest.setAttribute("currentArticleId", articleId);
-			renderRequest.setAttribute("tipDayPortletMode", mode);
+			this.doArticleRenderProcessing(themeDisplay, renderRequest, mode);
 			
 		// Render Articles Ids so frontend can cycle around the list and render each by id
 		} else {
@@ -67,4 +67,19 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		super.doView(renderRequest, renderResponse);
 	}
 	
+	private void doArticleRenderProcessing(ThemeDisplay themeDisplay, RenderRequest renderRequest, String mode) {
+		String articleId = ParamUtil.getString(renderRequest, "articleId");
+		logger.debug("Rendering article " + articleId);
+		// saveVisitedTip(request, articleId);
+		renderRequest.setAttribute("currentArticleId", articleId);
+		renderRequest.setAttribute("tipDayPortletMode", mode);
+		if (JournalArticleLocalServiceUtil.hasArticle(themeDisplay.getScopeGroupId(), articleId)) {
+			try {
+				renderRequest.setAttribute("article", JournalArticleLocalServiceUtil.getArticle(themeDisplay.getScopeGroupId(), articleId));
+			} catch (PortalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
