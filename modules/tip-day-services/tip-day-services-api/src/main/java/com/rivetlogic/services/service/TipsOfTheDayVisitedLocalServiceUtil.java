@@ -227,6 +227,18 @@ public class TipsOfTheDayVisitedLocalServiceUtil {
 		return getService().getTipsOfTheDayVisiteds(start, end);
 	}
 
+	public static java.util.List<com.rivetlogic.services.model.TipsOfTheDayVisited> getVisitedTips(
+		long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getVisitedTips(companyId, groupId, userId);
+	}
+
+	public static java.util.List<java.lang.String> getVisitedTipsIds(
+		long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getVisitedTipsIds(companyId, groupId, userId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -249,6 +261,12 @@ public class TipsOfTheDayVisitedLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void addVisitedTip(long companyId, long groupId, long userId,
+		java.lang.String tipId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().addVisitedTip(companyId, groupId, userId, tipId);
 	}
 
 	public static TipsOfTheDayVisitedLocalService getService() {

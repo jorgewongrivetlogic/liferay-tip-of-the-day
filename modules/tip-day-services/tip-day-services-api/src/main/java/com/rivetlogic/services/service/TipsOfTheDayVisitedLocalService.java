@@ -214,6 +214,14 @@ public interface TipsOfTheDayVisitedLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<TipsOfTheDayVisited> getTipsOfTheDayVisiteds(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<TipsOfTheDayVisited> getVisitedTips(long companyId,
+		long groupId, long userId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<java.lang.String> getVisitedTipsIds(long companyId,
+		long groupId, long userId) throws SystemException;
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -231,4 +239,7 @@ public interface TipsOfTheDayVisitedLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void addVisitedTip(long companyId, long groupId, long userId,
+		java.lang.String tipId) throws SystemException;
 }

@@ -14,7 +14,16 @@
 
 package com.rivetlogic.services.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.rivetlogic.services.exception.NoSuchTipsOfTheDayVisitedException;
+import com.rivetlogic.services.model.TipsOfTheDayVisited;
 import com.rivetlogic.services.service.base.TipsOfTheDayVisitedLocalServiceBaseImpl;
+import com.rivetlogic.services.service.persistence.TipsOfTheDayVisitedPK;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The implementation of the Tips of the Day Visited local service.
@@ -32,9 +41,40 @@ import com.rivetlogic.services.service.base.TipsOfTheDayVisitedLocalServiceBaseI
  */
 public class TipsOfTheDayVisitedLocalServiceImpl
 	extends TipsOfTheDayVisitedLocalServiceBaseImpl {
+	
+	private static final Log logger = 
+            LogFactoryUtil.getLog(TipsOfTheDayVisitedLocalServiceImpl.class);
+	
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link com.rivetlogic.services.service.TipsOfTheDayVisitedLocalServiceUtil} to access the Tips of the Day Visited local service.
 	 */
+	
+	public void addVisitedTip(long companyId, long groupId, long userId, String tipId) throws SystemException {
+        TipsOfTheDayVisitedPK pk = new TipsOfTheDayVisitedPK(userId, companyId, groupId, tipId);
+        TipsOfTheDayVisited tipVisited;
+        try {
+            tipVisited = tipsOfTheDayVisitedPersistence.findByPrimaryKey(pk);
+            if(logger.isDebugEnabled())
+                logger.debug("Tip already visited " + tipId);
+        } catch (NoSuchTipsOfTheDayVisitedException e) {
+            tipVisited = tipsOfTheDayVisitedPersistence.create(pk);
+            tipsOfTheDayVisitedPersistence.update(tipVisited);
+        }
+    }
+    
+    public List<TipsOfTheDayVisited> getVisitedTips(long companyId, long groupId, long userId) throws SystemException {
+        return tipsOfTheDayVisitedPersistence.findByC_G_U(companyId, groupId, userId);
+    }
+    
+    public List<String> getVisitedTipsIds(long companyId, long groupId, long userId) throws SystemException {
+        List<String> ids = new LinkedList<String>();
+        List<TipsOfTheDayVisited> tips = getVisitedTips(companyId, groupId, userId);
+        for(TipsOfTheDayVisited tip : tips)
+            ids.add(tip.getTipId());
+        return ids;
+    }
+    
+    
 }

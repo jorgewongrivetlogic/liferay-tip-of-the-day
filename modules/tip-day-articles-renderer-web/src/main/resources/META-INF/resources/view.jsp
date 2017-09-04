@@ -10,7 +10,8 @@
 			window.TIPDAY = window.TIPDAY || {};
 			window.TIPDAY = {
 				portletNamespace: '<portlet:namespace/>',
-				contentURL: '<%=contentURL %>'
+				contentURL: '<%=contentURL %>',
+				articleIds: [${articleIds}]
 			};
 		</script>
 	</c:when>
@@ -30,9 +31,3 @@
 	</c:otherwise>
 
 </c:choose>
-
-
-
-
-
-<liferay-ui:asset-display className="<%= JournalArticle.class.getName() %>" classPK="31431"></liferay-ui:asset-display>
