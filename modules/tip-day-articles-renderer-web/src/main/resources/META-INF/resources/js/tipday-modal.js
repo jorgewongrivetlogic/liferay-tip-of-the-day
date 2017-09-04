@@ -37,6 +37,9 @@ AUI.add(
                     if (instance.get('show')) {
                         instance.show();
                     }
+                    Liferay.on('tipday:show', function() {
+                        instance.show();
+                    });
                 },
 
                 show: function () {

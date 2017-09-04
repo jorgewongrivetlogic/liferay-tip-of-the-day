@@ -13,7 +13,7 @@
                     <form>
                         <div class="form-group"></div>
                         <div class="form-group">
-                            <button class="btn btn-default" type="button">Show me tips now</button>
+                            <button data-action="showme-tips-now" class="btn btn-default" type="button">Show me tips now</button>
                         </div>
                         <div class="form-group">
                             <label>
@@ -42,7 +42,13 @@
             </div>
         </div>
     </div>
-
+    <aui:script use="rivetlogic-tipday-menu">
+        new A.TipDayMenu({
+            resourceURL: '<portlet:resourceURL />',
+            namespace: window.TIPDAY.portletNamespace,
+            node: A.one('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayPanelId')
+        });
+    </aui:script>
     <aui:script>
         var toggle = $('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayToggleId>');
 
