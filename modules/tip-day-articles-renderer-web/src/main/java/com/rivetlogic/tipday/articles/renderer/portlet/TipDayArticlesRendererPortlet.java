@@ -19,6 +19,8 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -82,4 +84,14 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 			}
 		}
 	}
+
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
+		logger.debug("requesting serve resource");
+		// TODO Auto-generated method stub
+		super.serveResource(resourceRequest, resourceResponse);
+	}
+	
+	
 }

@@ -61,6 +61,10 @@ public interface TipsOfTheDayUsersLocalService extends BaseLocalService,
 	 * Never modify or reference this interface directly. Always use {@link TipsOfTheDayUsersLocalServiceUtil} to access the Tips of the Day Users local service. Add custom service methods to {@link com.rivetlogic.services.service.impl.TipsOfTheDayUsersLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean getUserShowAll(long companyId, long groupId, long userId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
@@ -133,6 +137,10 @@ public interface TipsOfTheDayUsersLocalService extends BaseLocalService,
 	public TipsOfTheDayUsers getTipsOfTheDayUsers(long tipUserId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public TipsOfTheDayUsers getUser(long companyId, long groupId, long userId)
+		throws PortalException, SystemException;
+
 	/**
 	* Updates the Tips of the Day Users in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -157,6 +165,10 @@ public interface TipsOfTheDayUsersLocalService extends BaseLocalService,
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getUserStatus(long companyId, long groupId,
+		long userId) throws PortalException, SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -228,4 +240,10 @@ public interface TipsOfTheDayUsersLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void setUserShowAll(long companyId, long groupId, long userId,
+		java.lang.Boolean showAll) throws PortalException, SystemException;
+
+	public void setUserStatus(long companyId, long groupId, long userId,
+		java.lang.String status) throws PortalException, SystemException;
 }

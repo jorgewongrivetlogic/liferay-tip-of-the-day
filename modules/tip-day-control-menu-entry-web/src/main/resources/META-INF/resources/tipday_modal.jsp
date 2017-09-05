@@ -3,7 +3,7 @@
         namespace: window.TIPDAY.portletNamespace,
         contentURL: window.TIPDAY.contentURL,
         articleIds: window.TIPDAY.articleIds,
-        show: true,
+        show: false,
         title: '<liferay-ui:message key="tipday-menuentry-message" />'
     });
 </aui:script>

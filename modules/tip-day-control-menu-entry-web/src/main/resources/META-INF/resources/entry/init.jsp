@@ -49,7 +49,6 @@ page import="com.liferay.portal.kernel.util.StringBundler" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %><%@
 page import="com.liferay.portal.kernel.util.StringUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
-page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.util.comparator.PortletCategoryComparator" %><%@
 page import="com.liferay.portal.kernel.util.comparator.PortletTitleComparator" %><%@
 page import="com.liferay.portal.util.PortletCategoryUtil" %><%@
@@ -72,6 +71,7 @@ page import="java.util.regex.Pattern" %>
 page import="javax.portlet.PortletRequest" %><%@
 page import="javax.portlet.PortletURL" %><%@
 page import="javax.portlet.WindowState" %>
+<%@ page import="com.rivetlogic.tipday.api.constants.WebKeys" %>
 
 <liferay-frontend:defineObjects />
 

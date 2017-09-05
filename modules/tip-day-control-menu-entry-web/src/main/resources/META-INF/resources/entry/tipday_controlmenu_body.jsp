@@ -1,4 +1,10 @@
 <%@ include file="/entry/init.jsp" %>
+
+<%
+boolean stopShowing = GetterUtil.getBoolean(request.getAttribute(WebKeys.STOP_SHOWING));
+boolean showAllTips = (Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS);
+%>
+
 <liferay-util:body-bottom outputKey="tipdayContentMenu">
     <div class="closed hidden-print lfr-add-panel lfr-admin-panel sidenav-fixed sidenav-menu-slider sidenav-right" id="<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayPanelId">
         <div class="product-menu sidebar sidebar-inverse sidenav-menu">
@@ -17,7 +23,7 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input class="toggle-switch" type="checkbox">
+                                <input data-action="tof-each-login" class="toggle-switch" type="checkbox" <c:if test="${!stopShowing}"> checked </c:if> />
                                 <span class="toggle-switch-label">Show tips at login</span>
                         
                                 <span aria-hidden="true" class="toggle-switch-bar">
@@ -28,7 +34,7 @@
                         </div>
                         <div class="form-group">
                                 <label>
-                                    <input class="toggle-switch" type="checkbox">
+                                    <input data-action="tof-checkbox-only-new" class="toggle-switch" type="checkbox" <c:if test="${!showAllTips}"> checked </c:if> />
                                     <span class="toggle-switch-label">Show only new tips</span>
                             
                                     <span aria-hidden="true" class="toggle-switch-bar">
@@ -44,7 +50,7 @@
     </div>
     <aui:script use="rivetlogic-tipday-menu">
         new A.TipDayMenu({
-            resourceURL: '<portlet:resourceURL />',
+            resourceURL: window.TIPDAY.resourceURL,
             namespace: window.TIPDAY.portletNamespace,
             node: A.one('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayPanelId')
         });

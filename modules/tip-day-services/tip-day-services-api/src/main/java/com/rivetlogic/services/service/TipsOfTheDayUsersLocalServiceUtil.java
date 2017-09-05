@@ -41,6 +41,13 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.rivetlogic.services.service.impl.TipsOfTheDayUsersLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean getUserShowAll(long companyId, long groupId,
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserShowAll(companyId, groupId, userId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -132,6 +139,13 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 		return getService().getTipsOfTheDayUsers(tipUserId);
 	}
 
+	public static com.rivetlogic.services.model.TipsOfTheDayUsers getUser(
+		long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUser(companyId, groupId, userId);
+	}
+
 	/**
 	* Updates the Tips of the Day Users in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -159,6 +173,13 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static java.lang.String getUserStatus(long companyId, long groupId,
+		long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserStatus(companyId, groupId, userId);
 	}
 
 	/**
@@ -249,6 +270,20 @@ public class TipsOfTheDayUsersLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void setUserShowAll(long companyId, long groupId,
+		long userId, java.lang.Boolean showAll)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().setUserShowAll(companyId, groupId, userId, showAll);
+	}
+
+	public static void setUserStatus(long companyId, long groupId, long userId,
+		java.lang.String status)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().setUserStatus(companyId, groupId, userId, status);
 	}
 
 	public static TipsOfTheDayUsersLocalService getService() {

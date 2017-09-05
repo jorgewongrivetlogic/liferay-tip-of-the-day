@@ -30,6 +30,41 @@ AUI.add(
                     instance.get('node').one('[data-action="showme-tips-now"]').on('click', function() {
                         Liferay.fire('tipday:show');
                     });
+
+                    instance.get('node').delegate('click', function(e) {
+                        instance.onCheckboxClickHandler(this);
+                    }, '[type="checkbox"]');
+                },
+
+                onCheckboxClickHandler: function(checkbox) {
+                    var instance = this;
+                    var action = checkbox.getAttribute('data-action');
+                    var state = checkbox.get('checked');
+                    var changedValue = '';
+                    
+                    if (action === 'tof-checkbox-only-new') {
+                        changedValue = 'showAllTips';            
+                    } else if (action === 'tof-checkbox-show') {
+                        changedValue = 'stopShowing'; 
+                    }
+
+                    var data = Liferay.Util.ns(instance.namespace, {
+                        changedValue: changedValue,
+                        value: !state
+                    });
+                    // ajax call
+                    A.io.request(instance.get('resourceURL'), {
+                        method: 'GET',
+                        data: data,
+                        dataType: 'json', // expects json as response
+                        on: {
+                            success: function (e) {
+                                var data = this.get('responseData');
+                                console.log(data);
+                                //Liferay.Util.getWindow(instance.NS).bodyNode.set('innerHTML', data);
+                            }
+                        }
+                    });
                 }
             }
         });

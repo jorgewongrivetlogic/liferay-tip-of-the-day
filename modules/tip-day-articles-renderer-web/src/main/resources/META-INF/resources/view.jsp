@@ -11,6 +11,7 @@
 			window.TIPDAY = {
 				portletNamespace: '<portlet:namespace/>',
 				contentURL: '<%=contentURL %>',
+				resourceURL: '<portlet:resourceURL />',
 				articleIds: [${articleIds}]
 			};
 		</script>
