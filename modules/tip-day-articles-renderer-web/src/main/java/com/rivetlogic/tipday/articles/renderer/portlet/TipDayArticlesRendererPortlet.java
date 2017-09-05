@@ -16,7 +16,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -51,6 +53,8 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 			LogFactoryUtil.getLog(TipDayArticlesRendererPortlet.class);
 	
 	private static final String USER_SETTING_UPDATE = "user-settings-update";
+
+	private static final String ATTR_SHOW_TIPS = "showTips";
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
@@ -70,6 +74,8 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 			long[] categoryIds = TipOfTheDayUtil.getCategoryIds(renderRequest, themeDisplay);
 			String[] articleIds = TipOfTheDayUtil.getFilteredArticleIds(renderRequest, categoryIds);
 			renderRequest.setAttribute(WebKeys.ARTICLE_IDS, StringUtil.merge(articleIds));
+			String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(renderRequest), themeDisplay);
+			setPopUpVisibility(renderRequest, themeDisplay, userStatus);
 		}
 		super.doView(renderRequest, renderResponse);
 	}
@@ -161,6 +167,8 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		} catch (Exception e) {
 			logger.error("Error changing Show Tips", e);
 		}
+		
+	
 	}
 	
 	/**
@@ -186,4 +194,28 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		}
 	}
 	
+	/**
+	 * Sets the pop up visibility based on the user's configuration and the number of articles.
+	 *
+	 * @param request the request
+	 * @param themeDisplay the theme display
+	 * @param userStatus the user status
+	 */
+	private void setPopUpVisibility(RenderRequest request, ThemeDisplay themeDisplay, String userStatus) {
+		try {
+		    long[] categoryIds = TipOfTheDayUtil.getCategoryIds(request, themeDisplay);
+			boolean showTips = !Validator.isNull(categoryIds) && TipOfTheDayUtil.checkShowTips(themeDisplay, userStatus);
+			logger.debug(userStatus);
+			if(showTips) {
+			    showTips = TipOfTheDayUtil.getFilteredArticleIds(request, categoryIds).length > 0;
+			}			
+			logger.debug("GETTING POPUP VISIBILITY/SHOW: " + showTips);
+			logger.debug(categoryIds.length);
+			request.setAttribute(ATTR_SHOW_TIPS, showTips);
+			
+		} catch (Exception e) {
+			logger.error("Error setting pop up visibility", e);
+		}
+		
+	}
 }

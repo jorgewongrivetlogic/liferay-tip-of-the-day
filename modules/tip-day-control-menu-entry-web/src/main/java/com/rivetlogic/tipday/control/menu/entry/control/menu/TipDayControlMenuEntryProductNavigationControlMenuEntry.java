@@ -1,19 +1,14 @@
 package com.rivetlogic.tipday.control.menu.entry.control.menu;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.product.navigation.control.menu.BaseJSPProductNavigationControlMenuEntry;
 import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
 import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
-import com.rivetlogic.services.model.TipsOfTheDayUsers;
-import com.rivetlogic.services.service.TipsOfTheDayUsersLocalServiceUtil;
 import com.rivetlogic.tipday.api.constants.WebKeys;
+import com.rivetlogic.tipday.api.utils.TipOfTheDayUtil;
 
 import java.io.IOException;
 
@@ -60,33 +55,7 @@ public class TipDayControlMenuEntryProductNavigationControlMenuEntry
 	public boolean includeBody(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		logger.debug("Rendering tip of the day user settings");
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		String userStatus = String.valueOf(!WebKeys.STATUS_RECEIVE);
-		try {
-			userStatus = GetterUtil.getString(
-					request.getAttribute(WebKeys.USER_STATUS));
-			if (Validator.isNull(userStatus)) {
-				TipsOfTheDayUsers user = TipsOfTheDayUsersLocalServiceUtil.getUser(
-						themeDisplay.getCompanyId(), 
-						themeDisplay.getScopeGroupId(), 
-						themeDisplay.getUserId());
-				logger.debug(user);
-				if (Validator.isNotNull(user)) {
-					userStatus = user.getStatus();
-					request.setAttribute(WebKeys.USER_STATUS, userStatus);
-					request.setAttribute(WebKeys.SHOW_ALL_TIPS, user.getShowAll());
-				}
-			}
-			if (userStatus.equals(String.valueOf(!WebKeys.STATUS_RECEIVE))) {
-				logger.debug("stop following: true");
-				request.setAttribute(WebKeys.STOP_SHOWING, true);
-			}
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PortalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		TipOfTheDayUtil.getUserStatus(request, themeDisplay);
 		// TODO Auto-generated method stub
 		return super.includeBody(request, response);
 	}

@@ -7,12 +7,21 @@
 		</portlet:renderURL>
 		<!-- set object only if it is not in article render mode  -->
 		<script>
+			console.log(${showTips});
 			window.TIPDAY = window.TIPDAY || {};
 			window.TIPDAY = {
 				portletNamespace: '<portlet:namespace/>',
 				contentURL: '<%=contentURL %>',
 				resourceURL: '<portlet:resourceURL />',
-				articleIds: [${articleIds}]
+				articleIds: [${articleIds}],
+				<c:choose>
+		            <c:when test="${showTips eq true }">
+		        showPopUp: true 
+		            </c:when>
+		            <c:otherwise>
+		        showPopUp: false 
+		            </c:otherwise>
+		        </c:choose>
 			};
 		</script>
 	</c:when>
