@@ -41,16 +41,17 @@ AUI.add(
                     var action = checkbox.getAttribute('data-action');
                     var state = checkbox.get('checked');
                     var changedValue = '';
-                    
+
                     if (action === 'tof-checkbox-only-new') {
                         changedValue = 'showAllTips';            
                     } else if (action === 'tof-checkbox-show') {
                         changedValue = 'stopShowing'; 
                     }
 
-                    var data = Liferay.Util.ns(instance.namespace, {
+                    var data = Liferay.Util.ns(instance.get('namespace'), {
                         changedValue: changedValue,
-                        value: !state
+                        value: !state,
+                        action: 'user-settings-update'
                     });
                     // ajax call
                     A.io.request(instance.get('resourceURL'), {

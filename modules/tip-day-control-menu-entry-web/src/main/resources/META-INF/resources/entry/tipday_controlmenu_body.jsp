@@ -23,7 +23,7 @@ boolean showAllTips = (Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS);
                         </div>
                         <div class="form-group">
                             <label>
-                                <input data-action="tof-each-login" class="toggle-switch" type="checkbox" <c:if test="${!stopShowing}"> checked </c:if> />
+                                <input data-action="tof-checkbox-show" class="toggle-switch" type="checkbox" <c:if test="${!stopShowing}"> checked </c:if> />
                                 <span class="toggle-switch-label">Show tips at login</span>
                         
                                 <span aria-hidden="true" class="toggle-switch-bar">

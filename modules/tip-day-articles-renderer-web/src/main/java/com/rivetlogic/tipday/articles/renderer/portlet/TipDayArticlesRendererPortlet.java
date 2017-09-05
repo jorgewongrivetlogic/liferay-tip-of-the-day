@@ -1,10 +1,13 @@
 package com.rivetlogic.tipday.articles.renderer.portlet;
 
 import com.rivetlogic.tipday.articles.renderer.constants.TipDayArticlesRendererPortletKeys;
+import com.rivetlogic.services.service.TipsOfTheDayUsersLocalServiceUtil;
 import com.rivetlogic.tipday.api.constants.WebKeys;
 import com.rivetlogic.tipday.api.utils.TipOfTheDayUtil;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -47,6 +50,8 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 	private static final Log logger = 
 			LogFactoryUtil.getLog(TipDayArticlesRendererPortlet.class);
 	
+	private static final String USER_SETTING_UPDATE = "user-settings-update";
+	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
@@ -69,6 +74,13 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		super.doView(renderRequest, renderResponse);
 	}
 	
+	/**
+	 * This gets called when article view is going to render article
+	 * 
+	 * @param themeDisplay
+	 * @param renderRequest
+	 * @param mode
+	 */
 	private void doArticleRenderProcessing(ThemeDisplay themeDisplay, RenderRequest renderRequest, String mode) {
 		String articleId = ParamUtil.getString(renderRequest, "articleId");
 		logger.debug("Rendering article " + articleId);
@@ -88,10 +100,90 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
-		logger.debug("requesting serve resource");
+		logger.debug("REQUESTING SERVE RESOURCE");
+		ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		String action = ParamUtil.getString(resourceRequest, "action");
+		logger.debug("action: " + action);
+		
+		if (USER_SETTING_UPDATE.equals(action)) {
+			
+			String changedValueName = ParamUtil.getString(resourceRequest, WebKeys.CHANGED_VALUE);
+			boolean value = ParamUtil.getBoolean(resourceRequest, "value");
+			logger.debug(changedValueName + ": " + value); 
+			if (changedValueName.equals(WebKeys.STOP_SHOWING)) {
+				changeShowTips(value, themeDisplay);
+			}
+			if (changedValueName.equals(WebKeys.SHOW_ALL_TIPS)) {
+				changeShowAll(value, themeDisplay);
+			}
+			
+		}
+		
 		// TODO Auto-generated method stub
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 	
+	/**
+	 * Action called from the dockbar checkbox to hide tips already seen.
+	 * 
+	 * @param showOnlyNew
+	 * @param themeDisplay
+	 */
+	private void changeShowAll(boolean showOnlyNew, ThemeDisplay themeDisplay) {
+        long companyId = themeDisplay.getCompanyId();
+        long groupId = themeDisplay.getScopeGroupId();
+        long userId = themeDisplay.getUserId();
+        
+        try {
+        	TipsOfTheDayUsersLocalServiceUtil.setUserShowAll(companyId, groupId, userId, showOnlyNew);
+        } catch (Exception e) {
+            logger.error("Error changing Show Tips", e);
+        }
+    }
+	
+	/**
+	 * Action called from the dockbar checkbox to stop showing tips at login.
+	 *
+	 * @param stopShowing the stop showing
+	 * @param themeDisplay the theme display
+	 */
+	private void changeShowTips(boolean stopShowing, ThemeDisplay themeDisplay) {
+		long companyId = themeDisplay.getCompanyId();
+		long groupId = themeDisplay.getScopeGroupId();
+		long userId = themeDisplay.getUserId();
+		
+		try {
+			if (stopShowing) {
+				TipsOfTheDayUsersLocalServiceUtil.setUserStatus(companyId, groupId, userId, String.valueOf(false));
+			} else {
+				setUserVisitance(themeDisplay, String.valueOf(WebKeys.STATUS_RECEIVE));
+			}
+		} catch (Exception e) {
+			logger.error("Error changing Show Tips", e);
+		}
+	}
+	
+	/**
+	 * Sets the user visitance.
+	 *
+	 * @param themeDisplay the theme display
+	 * @param userStatus the user status
+	 */
+	private void setUserVisitance(ThemeDisplay themeDisplay, String userStatus) {
+		if (themeDisplay.isSignedIn()) {
+			if (!userStatus.equals(String.valueOf(!WebKeys.STATUS_RECEIVE))) {
+				Calendar calendar = new GregorianCalendar(themeDisplay.getTimeZone());
+				try {
+					TipsOfTheDayUsersLocalServiceUtil.setUserStatus(
+							themeDisplay.getCompanyId(), 
+							themeDisplay.getScopeGroupId(),
+							themeDisplay.getUserId(), 
+							String.valueOf(calendar.getTimeInMillis()));
+				} catch (Exception e) {
+					logger.error("Error setting user visitance", e);
+				}
+			}
+		}
+	}
 	
 }

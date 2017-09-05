@@ -131,7 +131,7 @@ AUI.add(
                     });
                     // ajax call
 
-                    Liferay.Util.getWindow(instance.NS).loadingmask.show()
+                    Liferay.Util.getWindow(instance.NS).loadingmask.show();
                     A.io.request(instance.get('contentURL'), {
                         method: 'GET',
                         data: data,
