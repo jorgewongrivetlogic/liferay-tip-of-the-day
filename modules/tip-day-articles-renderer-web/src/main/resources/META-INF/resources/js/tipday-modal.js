@@ -47,27 +47,27 @@ AUI.add(
                     var showButtonCss = instance.get('articleIds').length > 1 ? '' : 'hidden';
                     Liferay.Util.openWindow({
                         dialog: {
-                            width: 600,
-                            height: 400,
+                            width: '600',
+                            height: '400',
                             cssClass: 'tipday-modal',
                             destroyOnHide: true,
                             'toolbars.footer': [
                                 {
-                                    cssClass: 'previous-btn btn-lg ' + showButtonCss,
+                                    cssClass: 'previous-btn ' + showButtonCss,
                                     label: Liferay.Language.get('previous'),
                                     on: {
                                         click: A.bind('onPreviousHandler', instance)
                                     }
                                 },
                                 {
-                                    cssClass: 'next-btn btn-lg ' + showButtonCss,
+                                    cssClass: 'next-btn ' + showButtonCss,
                                     label: Liferay.Language.get('next'),
                                     on: {
                                         click: A.bind('onNextHandler', instance)
                                     }
                                 },
                                 {
-                                    cssClass: 'btn-lg',
+                                    cssClass: 'done-btn',
                                     label: Liferay.Language.get('done'),
                                     on: {
                                         click: A.bind('onDoneHandler', instance)
