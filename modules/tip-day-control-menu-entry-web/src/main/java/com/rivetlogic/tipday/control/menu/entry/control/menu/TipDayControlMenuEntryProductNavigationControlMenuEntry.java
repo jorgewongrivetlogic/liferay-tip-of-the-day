@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.product.navigation.control.menu.BaseJSPProductNavigationControlMenuEntry;
@@ -59,19 +60,24 @@ public class TipDayControlMenuEntryProductNavigationControlMenuEntry
 	public boolean includeBody(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		logger.debug("Rendering tip of the day user settings");
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		String userStatus = String.valueOf(!WebKeys.STATUS_RECEIVE);
 		try {
-			String userStatus = StringPool.BLANK;
-			TipsOfTheDayUsers user = TipsOfTheDayUsersLocalServiceUtil.getUser(
-							themeDisplay.getCompanyId(), 
-							themeDisplay.getScopeGroupId(), 
-							themeDisplay.getUserId());
-			logger.debug(user);
-			if (Validator.isNotNull(user)) {
-				userStatus = user.getStatus();
-				request.setAttribute(WebKeys.USER_STATUS, userStatus);
-				request.setAttribute(WebKeys.SHOW_ALL_TIPS, user.getShowAll());
+			userStatus = GetterUtil.getString(
+					request.getAttribute(WebKeys.USER_STATUS));
+			if (Validator.isNull(userStatus)) {
+				TipsOfTheDayUsers user = TipsOfTheDayUsersLocalServiceUtil.getUser(
+						themeDisplay.getCompanyId(), 
+						themeDisplay.getScopeGroupId(), 
+						themeDisplay.getUserId());
+				logger.debug(user);
+				if (Validator.isNotNull(user)) {
+					userStatus = user.getStatus();
+					request.setAttribute(WebKeys.USER_STATUS, userStatus);
+					request.setAttribute(WebKeys.SHOW_ALL_TIPS, user.getShowAll());
+				}
 			}
-			if (userStatus.equals(StringPool.BLANK)) {
+			if (userStatus.equals(String.valueOf(!WebKeys.STATUS_RECEIVE))) {
+				logger.debug("stop following: true");
 				request.setAttribute(WebKeys.STOP_SHOWING, true);
 			}
 		} catch (SystemException e) {
