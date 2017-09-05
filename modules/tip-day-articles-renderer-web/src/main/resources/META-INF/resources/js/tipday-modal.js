@@ -119,9 +119,12 @@ AUI.add(
                  */
                 retrieveArticle() {
                     var instance = this;
+
                     if (!instance.get('articleIds').length) {
+                        Liferay.Util.getWindow(instance.NS).bodyNode.set('innerHTML', instance.renderNoArticlesMessage());
                         return;
                     }
+
                     var data = Liferay.Util.ns(instance.NS, {
                         articleId: instance.get('articleIds')[instance.get('activeIndex')]
                     });
@@ -138,6 +141,12 @@ AUI.add(
                         }
                     });
                 },  
+
+                renderNoArticlesMessage() {
+                    return '<div class="alert alert-warning">' +
+                        '<strong class="lead">Warning</strong> There are no articles to show</a>.' +
+                    '</div>';
+                },
 
                 destructor: function () {
                     var instance = this;
