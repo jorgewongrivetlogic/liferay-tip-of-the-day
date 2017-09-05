@@ -79,6 +79,7 @@ AUI.add(
                         title: instance.get('title'),
                         id: instance.NS
                     }, function(dialogWindow) {
+                        dialogWindow.plug(A.LoadingMask);
                         instance.retrieveArticle();
                     });
                 },
@@ -129,6 +130,8 @@ AUI.add(
                         articleId: instance.get('articleIds')[instance.get('activeIndex')]
                     });
                     // ajax call
+
+                    Liferay.Util.getWindow(instance.NS).loadingmask.show()
                     A.io.request(instance.get('contentURL'), {
                         method: 'GET',
                         data: data,
@@ -136,6 +139,7 @@ AUI.add(
                         on: {
                             success: function (e) {
                                 var data = this.get('responseData');
+                                Liferay.Util.getWindow(instance.NS).loadingmask.hide();
                                 Liferay.Util.getWindow(instance.NS).bodyNode.set('innerHTML', data);
                             }
                         }
