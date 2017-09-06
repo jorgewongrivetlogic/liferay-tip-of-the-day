@@ -1,0 +1,6 @@
+Bundle-Name: tip-day-api
+Bundle-SymbolicName: com.rivetlogic.tipday.api
+Bundle-Version: 1.0.0
+Export-Package: \
+    com.rivetlogic.tipday.api.constants,\
+    com.rivetlogic.tipday.api.utils

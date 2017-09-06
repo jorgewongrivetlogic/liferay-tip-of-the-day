@@ -1,0 +1,9 @@
+Bundle-Name: tip-day-services-api
+Bundle-SymbolicName: com.rivetlogic.services.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.rivetlogic.services.exception,\
+	com.rivetlogic.services.model,\
+	com.rivetlogic.services.service,\
+	com.rivetlogic.services.service.persistence
+-includeresource: META-INF/service.xml=../tip-day-services-service/service.xml

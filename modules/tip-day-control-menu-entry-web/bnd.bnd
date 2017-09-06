@@ -1,0 +1,4 @@
+Bundle-Name: tip-day-control-menu-entry
+Bundle-SymbolicName: com.rivetlogic.tipday.control.menu.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /tipday-controlmenu-web

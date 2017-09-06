@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="com.rivetlogic.services">
+	<namespace>rivetlogic_tipday</namespace>
+	
+	<entity name="TipsOfTheDayUsers" local-service="true"
+		human-name="Tips of the Day Users">
+		<column name="tipUserId" type="long" primary="true" />
+		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="status" type="String" />
+		<column name="showAll" type="boolean" />
+
+		<finder return-type="TipsOfTheDayUsers" name="C_G_U">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+			<finder-column name="userId" />
+		</finder>
+
+	</entity>
+
+	<entity name="TipsOfTheDayCategories" local-service="true"
+		human-name="Tips of the Day Categories">
+		<column name="groupId" type="long" primary="true" />
+		<column name="categories" type="String" />
+	</entity>
+
+	<entity name="TipsOfTheDayVisited" local-service="true"
+		human-name="Tips of the Day Visited">
+		<column name="userId" type="long" primary="true" />
+		<column name="companyId" type="long" primary="true" />
+		<column name="groupId" type="long" primary="true" />
+		<column name="tipId" type="String" primary="true" />
+
+		<finder return-type="Collection" name="C_G_U">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+			<finder-column name="userId" />
+		</finder>
+	</entity>
+	
+</service-builder>
