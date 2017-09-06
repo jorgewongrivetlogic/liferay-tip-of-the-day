@@ -61,8 +61,6 @@ AUI.add(
                         on: {
                             success: function (e) {
                                 var data = this.get('responseData');
-                                console.log(data);
-                                //Liferay.Util.getWindow(instance.NS).bodyNode.set('innerHTML', data);
                             }
                         }
                     });

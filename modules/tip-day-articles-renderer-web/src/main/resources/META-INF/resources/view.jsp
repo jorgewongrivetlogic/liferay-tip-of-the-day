@@ -7,7 +7,6 @@
 		</portlet:renderURL>
 		<!-- set object only if it is not in article render mode  -->
 		<script>
-			console.log(${showTips});
 			window.TIPDAY = window.TIPDAY || {};
 			window.TIPDAY = {
 				portletNamespace: '<portlet:namespace/>',

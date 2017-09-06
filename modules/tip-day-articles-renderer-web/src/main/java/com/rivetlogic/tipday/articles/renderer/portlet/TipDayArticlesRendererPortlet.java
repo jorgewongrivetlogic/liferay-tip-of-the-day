@@ -54,6 +54,8 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 	
 	private static final String USER_SETTING_UPDATE = "user-settings-update";
 
+	private static final String USER_VISITED = "user-visited";
+	
 	private static final String ATTR_SHOW_TIPS = "showTips";
 	
 	@Override
@@ -123,6 +125,11 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 				changeShowAll(value, themeDisplay);
 			}
 			
+		}
+		
+		if (USER_VISITED.equals(action)) {
+			String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(resourceRequest), themeDisplay);
+			setUserVisitance(themeDisplay, userStatus);
 		}
 		
 		// TODO Auto-generated method stub

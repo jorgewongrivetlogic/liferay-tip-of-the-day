@@ -14,6 +14,9 @@ AUI.add(
                 contentURL: {
                     value: ''
                 },
+                resourceURL: {
+                    value: ''
+                },
                 articleIds: {
                     value: []
                 },
@@ -111,6 +114,21 @@ AUI.add(
                 onDoneHandler: function() {
                     var instance = this;
                     Liferay.Util.getWindow(instance.NS).hide();
+
+                    // send acknowledge to the backend
+                    var data = Liferay.Util.ns(instance.NS, {
+                        action: 'user-visited'
+                    });
+                    A.io.request(instance.get('resourceURL'), {
+                        method: 'GET',
+                        data: data,
+                        dataType: 'json', // expects json as response
+                        on: {
+                            success: function (e) {
+                                var data = this.get('responseData');
+                            }
+                        }
+                    });
                 },
 
                 /**
