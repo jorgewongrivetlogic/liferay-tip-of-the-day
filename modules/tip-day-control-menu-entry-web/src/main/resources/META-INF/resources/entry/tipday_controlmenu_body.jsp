@@ -55,8 +55,8 @@ boolean showAllTips = (Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS);
             node: A.one('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayPanelId')
         });
     </aui:script>
-    <aui:script>
-        var toggle = $('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayToggleId>');
+    <aui:script use="liferay-store,io-request,parse-content">
+        var toggle = $('#<%= TIPDAY_CONTROLMENU_NAMESPACE %>tipdayToggleId');
 
         toggle.sideNavigation();
 
