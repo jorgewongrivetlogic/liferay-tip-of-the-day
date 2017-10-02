@@ -40,7 +40,7 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.display-name=tip-day-articles-renderer Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"com.liferay.portlet.header-portal-javascript=/o/tipoftheday-web/js/tipday-modal.js",
+		"com.liferay.portlet.footer-portal-javascript=/o/tipoftheday-web/js/tipday-modal.js",
 		"com.liferay.portlet.header-portal-javascript=/o/tipoftheday-web/js/tipday-menu.js",
 		"javax.portlet.name=" + TipDayArticlesRendererPortletKeys.TipDayArticlesRenderer,
 		"javax.portlet.resource-bundle=content.Language",
