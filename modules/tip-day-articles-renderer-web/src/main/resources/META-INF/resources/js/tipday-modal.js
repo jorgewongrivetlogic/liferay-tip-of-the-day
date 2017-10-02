@@ -136,7 +136,7 @@ AUI.add(
                  * 
                  * @param {*} callback 
                  */
-                retrieveArticle() {
+                retrieveArticle: function() {
                     var instance = this;
 
                     if (!instance.get('articleIds').length) {
@@ -164,7 +164,7 @@ AUI.add(
                     });
                 },  
 
-                renderNoArticlesMessage() {
+                renderNoArticlesMessage: function() {
                     return '<div class="alert alert-warning">' +
                         '<strong class="lead">Warning</strong> There are no articles to show</a>.' +
                     '</div>';
