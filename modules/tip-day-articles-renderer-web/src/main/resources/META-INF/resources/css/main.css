@@ -1,5 +1,5 @@
 
-/* we hide it because element is only use it to take value and put it into modal title*/
+/* we hide it because element is only used to take value and put it into modal title*/
 .tipday-renderer-title {
     display: none;
 }
