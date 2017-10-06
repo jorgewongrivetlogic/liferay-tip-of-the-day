@@ -317,7 +317,7 @@ public class TipOfTheDayUtil {
 	 * @param themeDisplay
 	 * @return
 	 */
-	private static PortletPreferences getCPPortletPreferences(long companyId){
+	public static PortletPreferences getCPPortletPreferences(long companyId){
 		long plidCP = 0;
 		PortletPreferences prefs = null;
 		

@@ -1,0 +1,5 @@
+
+/* we hide it because element is only used to take value and put it into modal title*/
+.tipday-renderer-title {
+    display: none;
+}

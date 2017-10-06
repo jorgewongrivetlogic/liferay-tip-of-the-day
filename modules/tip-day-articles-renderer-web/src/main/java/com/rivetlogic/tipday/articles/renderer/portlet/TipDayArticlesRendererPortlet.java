@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,6 +23,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -40,6 +42,7 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.display-name=tip-day-articles-renderer Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
+		"com.liferay.portlet.header-portal-css=/o/tipoftheday-web/css/main.css",
 		"com.liferay.portlet.footer-portal-javascript=/o/tipoftheday-web/js/tipday-modal.js",
 		"com.liferay.portlet.header-portal-javascript=/o/tipoftheday-web/js/tipday-menu.js",
 		"javax.portlet.name=" + TipDayArticlesRendererPortletKeys.TipDayArticlesRenderer,
@@ -97,7 +100,10 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		renderRequest.setAttribute("tipDayPortletMode", mode);
 		if (JournalArticleLocalServiceUtil.hasArticle(themeDisplay.getScopeGroupId(), articleId)) {
 			try {
-				renderRequest.setAttribute("article", JournalArticleLocalServiceUtil.getArticle(themeDisplay.getScopeGroupId(), articleId));
+				JournalArticle article = JournalArticleLocalServiceUtil.getArticle(themeDisplay.getScopeGroupId(), articleId);
+				renderRequest.setAttribute(WebKeys.SHOW_ARTICLE_TITLE, getShowArticleTitle(PortalUtil.getCompanyId(renderRequest)));
+				renderRequest.setAttribute("articleTitle", article.getTitle(themeDisplay.getLocale()));
+				renderRequest.setAttribute("article", article);
 			} catch (PortalException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,6 +142,18 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 	
+	/**
+	 *	Check if admin configured the tip day to show article title whether or not inside the modal
+	 */
+	private Boolean getShowArticleTitle(long companyId) {
+		PortletPreferences prefs = TipOfTheDayUtil.getCPPortletPreferences(companyId);
+		
+		return Boolean.valueOf(prefs != null ? 
+				prefs.getValue(WebKeys.SHOW_ARTICLE_TITLE, 
+					WebKeys.SHOW_ARTICLE_TITLE_DEFAULT) : 
+						WebKeys.SHOW_ARTICLE_TITLE_DEFAULT);
+	}
+
 	/**
 	 * Action called from the dockbar checkbox to hide tips already seen.
 	 * 

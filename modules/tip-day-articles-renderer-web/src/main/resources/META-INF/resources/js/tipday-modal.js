@@ -159,6 +159,12 @@ AUI.add(
                                 var data = this.get('responseData');
                                 Liferay.Util.getWindow(instance.NS).loadingmask.hide();
                                 Liferay.Util.getWindow(instance.NS).bodyNode.set('innerHTML', data);
+
+                                // if title node exists, we set the modal title with its value
+                                var titleNode = Liferay.Util.getWindow(instance.NS).bodyNode.one('.tipday-renderer-title');
+                                if (titleNode) {
+                                    Liferay.Util.getWindow(instance.NS).titleNode.set('innerHTML', titleNode.get('text'));
+                                }
                             }
                         }
                     });

@@ -28,7 +28,14 @@
 	<c:otherwise>
 		<c:choose>
 			<c:when test="${not empty article}">
-				<liferay-ui:asset-display className="<%= JournalArticle.class.getName() %>" classPK="${article.getResourcePrimKey()}"></liferay-ui:asset-display>
+				<div class="tipday-renderer">
+					<c:if test="${showArticleTitle}">
+						<h1 class="tipday-renderer-title">${articleTitle}</h1>
+					</c:if>
+					<div class="tipday-renderer-content">
+						<liferay-ui:asset-display className="<%= JournalArticle.class.getName() %>" classPK="${article.getResourcePrimKey()}"></liferay-ui:asset-display>
+					</div>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<div class="portlet-msg-info">
