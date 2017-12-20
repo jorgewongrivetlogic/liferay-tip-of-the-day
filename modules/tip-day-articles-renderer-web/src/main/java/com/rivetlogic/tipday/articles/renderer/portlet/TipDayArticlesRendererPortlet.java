@@ -66,10 +66,10 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		
-		renderRequest.setAttribute(WebKeys.SHOW_ALL_TIPS, true); // TODO: fill show all tips based on user data
-		
 		String mode = ParamUtil.getString(renderRequest, "tipDayPortletMode");
-		
+
+		String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(renderRequest), themeDisplay);
+
 		// Render article by id
 		if (mode.equals("renderArticle")) {
 			this.doArticleRenderProcessing(themeDisplay, renderRequest, mode);
@@ -79,7 +79,6 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 			long[] categoryIds = TipOfTheDayUtil.getCategoryIds(renderRequest, themeDisplay);
 			String[] articleIds = TipOfTheDayUtil.getFilteredArticleIds(renderRequest, categoryIds);
 			renderRequest.setAttribute(WebKeys.ARTICLE_IDS, StringUtil.merge(articleIds));
-			String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(renderRequest), themeDisplay);
 			setPopUpVisibility(renderRequest, themeDisplay, userStatus);
 		}
 		super.doView(renderRequest, renderResponse);
@@ -95,7 +94,13 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 	private void doArticleRenderProcessing(ThemeDisplay themeDisplay, RenderRequest renderRequest, String mode) {
 		String articleId = ParamUtil.getString(renderRequest, "articleId");
 		logger.debug("Rendering article " + articleId);
-		// saveVisitedTip(request, articleId);
+		try {
+			TipOfTheDayUtil.saveVisitedTip(renderRequest, articleId);
+			System.out.println("Article visited");
+		} catch (PortalException e) {
+			logger.error("Error saving visited article id:" + articleId);
+			logger.error(e);
+		}
 		renderRequest.setAttribute("currentArticleId", articleId);
 		renderRequest.setAttribute("tipDayPortletMode", mode);
 		if (JournalArticleLocalServiceUtil.hasArticle(themeDisplay.getScopeGroupId(), articleId)) {
