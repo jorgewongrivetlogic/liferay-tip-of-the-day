@@ -41,7 +41,28 @@ AUI.add(
                         instance.show();
                     }
                     Liferay.on('tipday:show', function() {
-                        instance.show();
+                        instance.loadInfo();
+                    });
+                },
+
+                loadInfo: function() {
+                    var instance = this;
+
+                    var data = Liferay.Util.ns(instance.NS, {
+                        action: 'get-articles'
+                    });
+
+                    A.io.request(instance.get('resourceURL'), {
+                        method: 'GET',
+                        data: data,
+                        dataType: 'json', // expects json as response
+                        on: {
+                            success: function (e) {
+                                var response = this.get('responseData');
+                                instance.set("articleIds", response)
+                                instance.show()
+                            }
+                        }
                     });
                 },
 

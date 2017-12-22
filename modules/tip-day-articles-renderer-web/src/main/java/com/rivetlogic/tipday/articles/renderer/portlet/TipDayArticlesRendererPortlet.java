@@ -1,5 +1,7 @@
 package com.rivetlogic.tipday.articles.renderer.portlet;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.rivetlogic.tipday.articles.renderer.constants.TipDayArticlesRendererPortletKeys;
 import com.rivetlogic.services.service.TipsOfTheDayUsersLocalServiceUtil;
 import com.rivetlogic.tipday.api.constants.WebKeys;
@@ -54,6 +56,8 @@ import org.osgi.service.component.annotations.Component;
 public class TipDayArticlesRendererPortlet extends MVCPortlet {
 	private static final Log logger = 
 			LogFactoryUtil.getLog(TipDayArticlesRendererPortlet.class);
+
+	public static final String GET_ARTICLES = "get-articles";
 	
 	private static final String USER_SETTING_UPDATE = "user-settings-update";
 
@@ -96,7 +100,6 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 		logger.debug("Rendering article " + articleId);
 		try {
 			TipOfTheDayUtil.saveVisitedTip(renderRequest, articleId);
-			System.out.println("Article visited");
 		} catch (PortalException e) {
 			logger.error("Error saving visited article id:" + articleId);
 			logger.error(e);
@@ -136,9 +139,16 @@ public class TipDayArticlesRendererPortlet extends MVCPortlet {
 				changeShowAll(value, themeDisplay);
 			}
 			
-		}
-		
-		if (USER_VISITED.equals(action)) {
+		} else if (GET_ARTICLES.equals(action)) {
+			String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(resourceRequest), themeDisplay);
+			long[] categoryIds = TipOfTheDayUtil.getCategoryIds(resourceRequest, themeDisplay);
+			String[] articleIds = TipOfTheDayUtil.getFilteredArticleIds(resourceRequest, categoryIds);
+			JSONArray array = JSONFactoryUtil.createJSONArray();
+			for (String articleId : articleIds) {
+				array.put(new Integer(articleId));
+			}
+			resourceResponse.getWriter().println(array);
+		} else if (USER_VISITED.equals(action)) {
 			String userStatus = TipOfTheDayUtil.getUserStatus(PortalUtil.getHttpServletRequest(resourceRequest), themeDisplay);
 			setUserVisitance(themeDisplay, userStatus);
 		}

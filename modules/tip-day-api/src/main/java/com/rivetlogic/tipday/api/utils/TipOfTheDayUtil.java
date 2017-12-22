@@ -97,7 +97,7 @@ public class TipOfTheDayUtil {
 	 * @param themeDisplay
 	 * @return An array with all the categories ids
 	 */
-	public static long[] getCategoryIds(RenderRequest request, ThemeDisplay themeDisplay) {
+	public static long[] getCategoryIds(PortletRequest request, ThemeDisplay themeDisplay) {
 	    long[] categoryIds = new long[0];
 	    try {
 	    categoryIds = 
@@ -116,7 +116,7 @@ public class TipOfTheDayUtil {
 	 * @param categoryIds
 	 * @return An array with all the article ids
 	 */
-	public static String[] getFilteredArticleIds(RenderRequest request, long[] categoryIds) {
+	public static String[] getFilteredArticleIds(PortletRequest request, long[] categoryIds) {
 	    List<JournalArticle> articles = TipOfTheDayUtil.getJournalArticlesByCategoryIds(categoryIds);
         
         articles = TipOfTheDayUtil.filterVisitedArticles(request, articles);
@@ -136,7 +136,7 @@ public class TipOfTheDayUtil {
 	 * @param articles
 	 * @return The list of tips to display
 	 */
-	public static List<JournalArticle> filterVisitedArticles(RenderRequest request, List<JournalArticle> articles) {
+	public static List<JournalArticle> filterVisitedArticles(PortletRequest request, List<JournalArticle> articles) {
 	    
 	    if((Boolean) request.getAttribute(WebKeys.SHOW_ALL_TIPS))
 	        return articles;
